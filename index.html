@@ -684,7 +684,7 @@ function renderPage(d) {
   // 줄바꿈 처리 (저장된 \n 문자 → 실제 줄바꿈)
   const setMulti = (id, v) => {
     const e = document.getElementById(id);
-    if (e) e.textContent = (v || "").replace(/\\n/g, "\n");
+    if (e) e.textContent = (v || "").replace(/\\n|\n/g, "\n"); // literal \n and actual newline
   };
   setMulti("heroTitle",      d.heroTitle);
   setMulti("nobagajiTitle",  d.nobagajiTitle);
@@ -719,7 +719,7 @@ function renderPage(d) {
   document.getElementById("inspGrid").innerHTML = [1,2,3].map(i => `
     <div class="insp-card">
       <img src="${d['inspImg'+i] || DEFAULT['inspImg'+i]}" alt=""/>
-      <p>${(d['inspImg'+i+'Label'] || DEFAULT['inspImg'+i+'Label'] || "").replace(/\\n/g,"\n")}</p>
+      <p>${(d['inspImg'+i+'Label'] || DEFAULT['inspImg'+i+'Label'] || "").replace(/\\n|\n/g,"\n")}</p>
     </div>`).join("");
 
   // 작업 사진
@@ -763,7 +763,7 @@ function renderPage(d) {
     </div>`).join("");
 
   // 푸터
-  document.getElementById("footerText").innerHTML = (d.footer || "").replace(/\n/g, "<br>");
+  document.getElementById("footerText").innerHTML = (d.footer || "").replace(/\\n|\n/g, "<br>");
 }
 
 // ── 색상 적용 ──
@@ -773,16 +773,18 @@ function applyColors(main, accent) {
   const setbg = (id, c) => { const e=document.getElementById(id); if(e) e.style.background=c; };
   const setCol = (id, c) => { const e=document.getElementById(id); if(e) e.style.color=c; };
 
-  // 메인색
+  // 메인색 배경
   ["header","nobagaji","services","bottomCta"].forEach(id => setbg(id, m));
   setbg("inspBtn",    m); setbg("qcCall",      m);
   setbg("adminToggle",m); setbg("nationBadge", m);
-  // 강조색
+  // 강조색 배경 (nobagajiBadge 포함)
   setbg("headerPhone",    a); setCol("headerPhone",    m);
   setbg("heroBtnCall",    a); setCol("heroBtnCall",    m);
+  setbg("heroBtnSms",     "#00c73c");
   setbg("floatCall",      a); setCol("floatCall",      m);
   setbg("bottomCallBtn",  a); setCol("bottomCallBtn",  m);
   setbg("adminSaveBtn",   a); setCol("adminSaveBtn",   m);
+  setbg("nobagajiBadge",  a); // 바가지 없음 배지도 강조색 유지
   // 텍스트 색
   setCol("trustPercent", m);
   document.querySelectorAll(".stat-item .num, .ns-item .num").forEach(e => e.style.color = m);
@@ -899,7 +901,11 @@ window.delReview = i => { tmpReviews.splice(i, 1); renderReviewAdmin(tmpReviews)
 
 // ── 패널 채우기 ──
 function fillAdminPanel(d) {
-  const set = (id, v) => { const e = document.getElementById(id); if (e) e.value = v || ""; };
+  // textarea에 값을 넣을 때 리터럴 \n을 실제 개행으로 변환
+  const set = (id, v) => {
+    const e = document.getElementById(id);
+    if (e) e.value = (v || "").replace(/\\n/g, "\n");
+  };
   set("cf_mainColor",    d.mainColor);   set("cf_mainColorHex",    d.mainColor);
   set("cf_accentColor",  d.accentColor); set("cf_accentColorHex",  d.accentColor);
   set("cf_logoFont",     d.logoFont);
@@ -938,7 +944,10 @@ function fillAdminPanel(d) {
 
 // ── 데이터 수집 ──
 function collectFormData() {
+  // 일반 텍스트 get
   const get = id => document.getElementById(id)?.value || "";
+  // 줄바꿈 포함 텍스트 get (textarea) - 실제 개행을 \n 리터럴로 정규화
+  const getML = id => (document.getElementById(id)?.value || "").replace(/\n/g, "\\n");
   const svcs = tmpServices.map((s, i) => ({
     type: document.getElementById(`si_type_${i}`)?.value || "emoji",
     icon: document.getElementById(`si_icon_${i}`)?.value || s.icon,
@@ -956,22 +965,22 @@ function collectFormData() {
     logoFont:get("cf_logoFont"),      logoColor:get("cf_logoColor"),
     bizName:get("cf_bizName"),        phone:get("cf_phone"),
     kakaoUrl:get("cf_kakaoUrl"),      footer:get("cf_footer"),
-    heroTag:get("cf_heroTag"),        heroTitle:get("cf_heroTitle"),
+    heroTag:get("cf_heroTag"),        heroTitle:getML("cf_heroTitle"),
     heroSubtitle:get("cf_heroSubtitle"), heroImg:get("cf_heroImg"),
     inspTitle:get("cf_inspTitle"),    inspSub:get("cf_inspSub"),
     inspBtn:get("cf_inspBtn"),
     inspImg1:get("cf_inspImg1"), inspImg1Label:get("cf_inspImg1Label"),
     inspImg2:get("cf_inspImg2"), inspImg2Label:get("cf_inspImg2Label"),
     inspImg3:get("cf_inspImg3"), inspImg3Label:get("cf_inspImg3Label"),
-    nobagajiTitle:get("cf_nobagajiTitle"), nobagajiDesc:get("cf_nobagajiDesc"),
+    nobagajiTitle:getML("cf_nobagajiTitle"), nobagajiDesc:get("cf_nobagajiDesc"),
     nobagajiBadge:get("cf_nobagajiBadge"),
-    trustPercent:get("cf_trustPercent"), trustTitle:get("cf_trustTitle"),
+    trustPercent:get("cf_trustPercent"), trustTitle:getML("cf_trustTitle"),
     trustSub:get("cf_trustSub"),
     stat1Num:get("cf_stat1Num"), stat1Lbl:get("cf_stat1Lbl"),
     stat2Num:get("cf_stat2Num"), stat2Lbl:get("cf_stat2Lbl"),
     stat3Num:get("cf_stat3Num"), stat3Lbl:get("cf_stat3Lbl"),
     stat4Num:get("cf_stat4Num"), stat4Lbl:get("cf_stat4Lbl"),
-    photoTitle:get("cf_photoTitle"),
+    photoTitle:getML("cf_photoTitle"),
     photo1:get("cf_photo1"), photo2:get("cf_photo2"),
     photo3:get("cf_photo3"), photo4:get("cf_photo4"),
     nationTitle:get("cf_nationTitle"), nationSub:get("cf_nationSub"),
@@ -979,7 +988,7 @@ function collectFormData() {
     ns1Num:get("cf_ns1Num"), ns1Lbl:get("cf_ns1Lbl"),
     ns2Num:get("cf_ns2Num"), ns2Lbl:get("cf_ns2Lbl"),
     ns3Num:get("cf_ns3Num"), ns3Lbl:get("cf_ns3Lbl"),
-    qcTitle:get("cf_qcTitle"), bottomTitle:get("cf_bottomTitle"),
+    qcTitle:get("cf_qcTitle"), bottomTitle:getML("cf_bottomTitle"),
     bs1Num:get("cf_bs1Num"), bs1Lbl:get("cf_bs1Lbl"),
     bs2Num:get("cf_bs2Num"), bs2Lbl:get("cf_bs2Lbl"),
     bs3Num:get("cf_bs3Num"), bs3Lbl:get("cf_bs3Lbl"),
@@ -994,12 +1003,20 @@ function collectFormData() {
 window.saveData = async () => {
   if (!currentUser || !isOwner) return alert("편집 권한이 없습니다.");
   showToast("저장 중...");
-  const data = collectFormData();
-  const targetUid = pageUid || currentUser.uid;
-  await setDoc(doc(db, "pages", targetUid), data);
-  pageData = {...data};
-  renderPage(data);
-  showToast("저장되었습니다 ✓");
+  try {
+    const raw = collectFormData();
+    // undefined/null 값 제거 후 저장 (Firestore 오류 방지)
+    const data = JSON.parse(JSON.stringify(raw));
+    const targetUid = pageUid || currentUser.uid;
+    await setDoc(doc(db, "pages", targetUid), data);
+    pageData = {...data};
+    renderPage(data);
+    applyColors(data.mainColor, data.accentColor);
+    showToast("저장되었습니다 ✓");
+  } catch(err) {
+    console.error("저장 오류:", err);
+    showToast("저장 실패: " + err.message);
+  }
 };
 
 // ── 토스트 ──
@@ -1135,6 +1152,7 @@ onAuthStateChanged(auth, async user => {
     adminToggle.style.display = "flex";
     document.getElementById("uidSection").style.display = "block";
     loadUids();
+    loadUserPageAfterLogin(user); // 관리자 본인 저장 데이터 로드
   } else if (pageUid && pageUid === user.uid) {
     isOwner = true;
     adminToggle.style.display = "flex";
@@ -1177,14 +1195,35 @@ window.sendSms = () => {
 };
 
 // ── 초기 로드 ──
+// ?user=UID 있으면 해당 페이지, 없으면 로그인 후 본인 데이터 로드
+let _initLoaded = false;
+
+async function loadPageData(uid) {
+  const snap = await getDoc(doc(db, "pages", uid));
+  if (snap.exists()) renderPage({...DEFAULT, ...snap.data()});
+}
+
 async function init() {
   if (pageUid) {
+    // 직원/방문자: URL의 UID 페이지 로드
     const snap = await getDoc(doc(db, "pages", pageUid));
     renderPage(snap.exists() ? {...DEFAULT, ...snap.data()} : {...DEFAULT});
   } else {
+    // ?user= 없음: 일단 DEFAULT로 렌더 후
+    // 로그인된 사용자 감지되면 본인 저장 데이터 로드
     renderPage({...DEFAULT});
   }
 }
+
+// onAuthStateChanged 에서 init 후 본인 데이터 추가 로드 (pageUid 없을 때)
+async function loadUserPageAfterLogin(user) {
+  if (!pageUid && !_initLoaded) {
+    _initLoaded = true;
+    const snap = await getDoc(doc(db, "pages", user.uid));
+    if (snap.exists()) renderPage({...DEFAULT, ...snap.data()});
+  }
+}
+
 init();
 </script>
 </body>
