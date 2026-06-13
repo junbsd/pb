@@ -117,7 +117,11 @@ a{text-decoration:none;color:inherit;}
 #floatCall{position:fixed;bottom:80px;right:16px;background:#f5c518;color:#1a3a6b;width:56px;height:56px;border-radius:50%;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;z-index:200;border:none;}
 
 /* ─── ADMIN PANEL ─── */
-#adminToggle{position:fixed;bottom:16px;right:16px;background:#1a54b0;color:#fff;border:none;border-radius:50%;width:50px;height:50px;font-size:22px;cursor:pointer;z-index:300;box-shadow:0 4px 12px rgba(0,0,0,.3);display:none;}
+#adminToggle{position:fixed;bottom:16px;right:16px;background:#1a54b0;color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:22px;cursor:pointer;z-index:300;box-shadow:0 4px 16px rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;}
+#loginBtn{background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.5);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:600;}
+#userInfo{color:#fff;font-size:12px;display:none;align-items:center;gap:8px;}
+#userInfo .u-email{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#logoutBtn{background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:11px;padding:3px 8px;border-radius:10px;cursor:pointer;}
 #adminPanel{position:fixed;top:0;right:0;width:100%;max-width:420px;height:100%;background:#fff;z-index:500;overflow-y:auto;transform:translateX(100%);transition:transform .3s ease;box-shadow:-4px 0 20px rgba(0,0,0,.2);}
 #adminPanel.open{transform:translateX(0);}
 #adminHeader{background:#1a54b0;color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
@@ -168,7 +172,14 @@ a{text-decoration:none;color:inherit;}
 <!-- ─── HEADER ─── -->
 <header id="header">
   <div id="headerLogo">배관사무소</div>
-  <button id="headerPhone" onclick="callPhone()">📞 지금 바로 전화</button>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div id="userInfo">
+      <span class="u-email" id="userEmail"></span>
+      <button id="logoutBtn" onclick="doLogout()">로그아웃</button>
+    </div>
+    <button id="loginBtn" onclick="showLogin()">🔑 로그인</button>
+    <button id="headerPhone" onclick="callPhone()">📞 전화</button>
+  </div>
 </header>
 
 <!-- ─── HERO ─── -->
@@ -287,8 +298,17 @@ a{text-decoration:none;color:inherit;}
 <!-- ─── 플로팅 전화 버튼 ─── -->
 <button id="floatCall" onclick="callPhone()">📞</button>
 
-<!-- ─── 관리자 버튼 ─── -->
-<button id="adminToggle" onclick="toggleAdmin()" title="설정">⚙️</button>
+<!-- ─── 관리자 버튼 (로그인 후 노출) ─── -->
+<button id="adminToggle" onclick="toggleAdmin()" title="홈페이지 설정">⚙️</button>
+
+<!-- ─── 내 UID 안내 팝업 ─── -->
+<div id="uidPopup" style="display:none;position:fixed;bottom:90px;right:16px;background:#1a3a6b;color:#fff;border-radius:12px;padding:16px 20px;z-index:400;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:300px;font-size:13px;">
+  <div style="font-weight:700;margin-bottom:6px;">📋 내 Firebase UID</div>
+  <div id="myUidText" style="background:rgba(255,255,255,.1);padding:8px 10px;border-radius:6px;word-break:break-all;font-size:12px;margin-bottom:10px;"></div>
+  <div style="font-size:11px;color:#adc;">관리자에게 이 UID를 전달하면<br>개인 페이지 링크를 받을 수 있습니다</div>
+  <button onclick="copyUid()" style="margin-top:10px;background:#f5c518;color:#1a3a6b;border:none;border-radius:6px;padding:7px 16px;font-weight:700;cursor:pointer;width:100%;">📋 UID 복사</button>
+  <button onclick="document.getElementById('uidPopup').style.display='none'" style="margin-top:6px;background:transparent;color:#aaa;border:none;font-size:12px;cursor:pointer;width:100%;">닫기</button>
+</div>
 
 <!-- ─── TOAST ─── -->
 <div class="saving-toast" id="toast">저장되었습니다 ✓</div>
@@ -756,8 +776,10 @@ function collectFormData() {
 window.saveData = async () => {
   if(!currentUser || !isOwner) return alert("권한이 없습니다.");
   const data = collectFormData();
+  // ?user=UID 있으면 그 UID, 없으면 현재 로그인한 사용자 UID
   const targetUid = pageUid || currentUser.uid;
   await setDoc(doc(db, "pages", targetUid), data);
+  pageData = data;
   renderPage(data);
   showToast("저장되었습니다 ✓");
 };
@@ -842,44 +864,88 @@ window.signInWithGoogle = async () => {
   catch(e) { alert("로그인 실패: " + e.message); }
 };
 window.closeLogin = () => { document.getElementById("loginOverlay").style.display = "none"; };
+window.showLogin = () => { document.getElementById("loginOverlay").style.display = "flex"; };
+window.doLogout = async () => {
+  await signOut(auth);
+  document.getElementById("adminToggle").style.display = "none";
+  document.getElementById("userInfo").style.display = "none";
+  document.getElementById("loginBtn").style.display = "block";
+  document.getElementById("uidPopup").style.display = "none";
+  isOwner = false; isAdmin = false;
+};
+window.copyUid = () => {
+  const uid = document.getElementById("myUidText").textContent;
+  navigator.clipboard.writeText(uid).then(() => showToast("UID가 복사되었습니다 ✓"));
+};
 
 onAuthStateChanged(auth, async (user) => {
   currentUser = user;
+  const loginBtn = document.getElementById("loginBtn");
+  const userInfo = document.getElementById("userInfo");
+  const adminToggle = document.getElementById("adminToggle");
+
   if(!user) {
-    document.getElementById("adminToggle").style.display = "none";
+    loginBtn.style.display = "block";
+    userInfo.style.display = "none";
+    adminToggle.style.display = "none";
     isOwner = false; isAdmin = false;
     return;
   }
+
+  // 로그인 상태 UI
+  loginBtn.style.display = "none";
+  userInfo.style.display = "flex";
+  document.getElementById("userEmail").textContent = user.email;
+  document.getElementById("loginOverlay").style.display = "none";
+
+  // 내 UID 팝업에 표시
+  document.getElementById("myUidText").textContent = user.uid;
+
   isAdmin = (user.email === ADMIN_EMAIL);
 
-  // 페이지 오너 확인: ?user=UID가 없으면 본인 페이지, 있으면 관리자만
-  if(!pageUid || pageUid === user.uid || isAdmin) {
+  if(isAdmin) {
+    // 관리자: 항상 설정 버튼 보임
     isOwner = true;
-    document.getElementById("adminToggle").style.display = "flex";
-    if(isAdmin) {
-      document.getElementById("uidSection").style.display = "block";
-      loadUids();
-    }
+    adminToggle.style.display = "flex";
+    document.getElementById("uidSection").style.display = "block";
+    loadUids();
+  } else if(!pageUid) {
+    // ?user= 없이 접속: 일반 직원은 UID 팝업만 보여줌 (본인 페이지가 아님)
+    document.getElementById("uidPopup").style.display = "block";
+    isOwner = false;
+    adminToggle.style.display = "none";
+  } else if(pageUid === user.uid) {
+    // 본인 페이지 접속
+    isOwner = true;
+    adminToggle.style.display = "flex";
   } else {
-    // 등록된 UID인지 확인
-    const uidDoc = await getDoc(doc(db,"uids",user.uid));
-    if(uidDoc.exists() && user.uid === pageUid) {
-      isOwner = true;
-      document.getElementById("adminToggle").style.display = "flex";
-    }
+    // 남의 페이지 접속
+    isOwner = false;
+    adminToggle.style.display = "none";
+    document.getElementById("uidPopup").style.display = "block";
   }
 });
 
 // ─── 패널 토글 ───
 window.toggleAdmin = () => {
-  if(!currentUser) {
-    document.getElementById("loginOverlay").style.display = "flex";
-    return;
-  }
+  if(!currentUser) { showLogin(); return; }
   if(!isOwner) { alert("이 페이지의 편집 권한이 없습니다."); return; }
   const panel = document.getElementById("adminPanel");
   panel.classList.toggle("open");
-  if(panel.classList.contains("open")) fillAdminPanel(pageData);
+  if(panel.classList.contains("open")) {
+    // 관리자가 ?user= 없이 접속하면 관리자 본인 페이지 데이터를 편집
+    if(isAdmin && !pageUid) {
+      // 관리자 전용 페이지 로드
+      import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(({getDoc, doc}) => {
+        getDoc(doc(db,"pages",currentUser.uid)).then(snap => {
+          const d = snap.exists() ? {...DEFAULT_DATA,...snap.data()} : DEFAULT_DATA;
+          fillAdminPanel(d);
+        });
+      });
+    } else {
+      fillAdminPanel(pageData);
+    }
+  }
 };
 
 // ─── 전화/카카오 ───
