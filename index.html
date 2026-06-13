@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title id="pageTitle">배관사무소 | 24시간 긴급 배관 서비스</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans KR',sans-serif;color:#222;background:#fff;}
+img{max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* ─── HEADER ─── */
+#header{background:#1a3a6b;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+#headerLogo{color:#fff;font-size:18px;font-weight:900;}
+#headerPhone{background:#f5c518;color:#1a3a6b;font-weight:900;font-size:15px;padding:7px 18px;border-radius:30px;border:none;cursor:pointer;}
+
+/* ─── HERO ─── */
+#hero{background:linear-gradient(135deg,#1a54b0 0%,#1a8fd1 60%,#5bc8f5 100%);padding:30px 20px 40px;text-align:center;position:relative;overflow:hidden;}
+#heroTag{display:inline-block;background:#f5c518;color:#1a3a6b;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:10px;}
+#heroTitle{color:#fff;font-size:26px;font-weight:900;line-height:1.3;margin-bottom:6px;}
+#heroSubtitle{color:#d0eeff;font-size:14px;margin-bottom:18px;}
+#heroImg{width:100%;max-width:340px;border-radius:12px;margin-bottom:18px;}
+.heroBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.heroBtn{padding:13px 24px;border-radius:8px;font-size:15px;font-weight:700;border:none;cursor:pointer;}
+#heroBtnCall{background:#f5c518;color:#1a3a6b;}
+#heroBtnKakao{background:#fee500;color:#3c1e1e;}
+#heroBtnFree{background:#fff;color:#1a54b0;}
+
+/* ─── SECTION: 내시경 검사 ─── */
+#inspection{background:#f0f6ff;padding:36px 20px;}
+#inspection .sec-tag{text-align:center;font-size:12px;color:#1a54b0;font-weight:700;margin-bottom:6px;}
+#inspection .sec-title{text-align:center;font-size:20px;font-weight:900;margin-bottom:4px;}
+#inspection .sec-sub{text-align:center;font-size:13px;color:#555;margin-bottom:20px;}
+.insp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
+.insp-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.insp-card img{width:100%;height:90px;object-fit:cover;}
+.insp-card p{font-size:12px;font-weight:700;padding:8px;text-align:center;}
+#inspection .cta-btn{display:block;background:#1a54b0;color:#fff;text-align:center;padding:14px;border-radius:8px;font-weight:700;font-size:15px;border:none;cursor:pointer;width:100%;}
+
+/* ─── SECTION: 바가지 요금 없음 ─── */
+#nobagaji{background:#1a54b0;padding:36px 20px;text-align:center;}
+#nobagaji .label{display:inline-block;background:#f5c518;color:#1a3a6b;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:12px;}
+#nobagaji .title{color:#fff;font-size:20px;font-weight:900;line-height:1.4;margin-bottom:6px;}
+#nobagaji .badge{display:inline-block;background:#f5c518;color:#1a3a6b;font-size:26px;font-weight:900;padding:10px 30px;border-radius:8px;margin:14px 0;}
+#nobagaji .desc{color:#cde;font-size:13px;line-height:1.7;}
+
+/* ─── SECTION: 신뢰도 98.6% ─── */
+#trust{background:#fff;padding:36px 20px;text-align:center;}
+#trust .sec-tag{font-size:12px;color:#1a54b0;font-weight:700;margin-bottom:6px;}
+#trust .sec-title{font-size:20px;font-weight:900;margin-bottom:4px;}
+#trust .big-num{font-size:56px;font-weight:900;color:#1a54b0;margin:10px 0;}
+#trust .stats-row{display:flex;justify-content:center;gap:20px;margin-top:20px;flex-wrap:wrap;}
+.stat-item{text-align:center;}
+.stat-item .num{font-size:22px;font-weight:900;color:#1a54b0;}
+.stat-item .lbl{font-size:12px;color:#777;}
+
+/* ─── SECTION: 고객 후기 ─── */
+#reviews{background:#f5f5f5;padding:36px 20px;}
+#reviews .sec-title{font-size:20px;font-weight:900;text-align:center;margin-bottom:4px;}
+#reviews .sec-sub{font-size:13px;color:#555;text-align:center;margin-bottom:20px;}
+.review-stars{color:#f5c518;font-size:18px;text-align:center;margin-bottom:16px;}
+.review-card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.review-card .r-name{font-weight:700;font-size:14px;margin-bottom:4px;}
+.review-card .r-stars{color:#f5c518;font-size:13px;}
+.review-card .r-text{font-size:13px;color:#444;margin-top:6px;line-height:1.6;}
+
+/* ─── SECTION: 사진 신뢰 ─── */
+#photoTrust{background:#fff;padding:36px 20px;}
+#photoTrust .sec-title{font-size:20px;font-weight:900;text-align:center;margin-bottom:4px;line-height:1.4;}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
+.photo-grid img{width:100%;height:120px;object-fit:cover;border-radius:8px;}
+
+/* ─── SECTION: 서비스 목록 ─── */
+#services{background:#1a54b0;padding:36px 20px;}
+#services .sec-tag{display:inline-block;background:#f5c518;color:#1a3a6b;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:12px;}
+#services .sec-title{color:#fff;font-size:20px;font-weight:900;margin-bottom:20px;}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.svc-card{background:rgba(255,255,255,.12);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;}
+.svc-icon{font-size:26px;min-width:36px;text-align:center;}
+.svc-card .svc-name{color:#fff;font-weight:700;font-size:14px;}
+.svc-card .svc-desc{color:#cde;font-size:12px;margin-top:2px;}
+
+/* ─── SECTION: 전국 출동 ─── */
+#nationwide{background:#f0f6ff;padding:36px 20px;text-align:center;}
+#nationwide .sec-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+#nationwide .sec-sub{font-size:13px;color:#555;margin-bottom:20px;}
+.nation-stats{display:flex;justify-content:center;gap:30px;margin-bottom:24px;}
+.ns-item .num{font-size:28px;font-weight:900;color:#1a54b0;}
+.ns-item .lbl{font-size:12px;color:#777;}
+#nationMapImg{width:100%;max-width:280px;border-radius:12px;}
+#nationwide .badge{display:inline-block;background:#1a54b0;color:#fff;font-size:14px;font-weight:700;padding:10px 24px;border-radius:30px;margin-top:16px;}
+
+/* ─── SECTION: CTA 버튼들 ─── */
+#quickContact{background:#fff;padding:28px 20px;}
+#quickContact .sec-title{font-size:18px;font-weight:900;text-align:center;margin-bottom:16px;}
+.qc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.qc-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 10px;border-radius:10px;font-size:13px;font-weight:700;border:none;cursor:pointer;}
+#qcCall{background:#1a54b0;color:#fff;}
+#qcKakao{background:#fee500;color:#3c1e1e;}
+#qcSms{background:#00c73c;color:#fff;}
+#qcFree{background:#f5f5f5;color:#333;}
+
+/* ─── SECTION: 하단 CTA ─── */
+#bottomCta{background:#1a54b0;padding:36px 20px;text-align:center;}
+#bottomCta .title{color:#fff;font-size:22px;font-weight:900;line-height:1.4;margin-bottom:20px;}
+.bottom-stats{display:flex;justify-content:center;gap:24px;margin-bottom:24px;}
+.bs-item .num{font-size:22px;font-weight:900;color:#f5c518;}
+.bs-item .lbl{font-size:12px;color:#cde;}
+#bottomCta .cta-call{background:#f5c518;color:#1a3a6b;font-size:18px;font-weight:900;padding:16px 40px;border-radius:8px;border:none;cursor:pointer;width:100%;max-width:320px;}
+
+/* ─── FOOTER ─── */
+#footer{background:#111;color:#888;font-size:12px;padding:20px;text-align:center;line-height:1.8;}
+
+/* ─── FLOATING BTN ─── */
+#floatCall{position:fixed;bottom:80px;right:16px;background:#f5c518;color:#1a3a6b;width:56px;height:56px;border-radius:50%;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;z-index:200;border:none;}
+
+/* ─── ADMIN PANEL ─── */
+#adminToggle{position:fixed;bottom:16px;right:16px;background:#1a54b0;color:#fff;border:none;border-radius:50%;width:50px;height:50px;font-size:22px;cursor:pointer;z-index:300;box-shadow:0 4px 12px rgba(0,0,0,.3);display:none;}
+#adminPanel{position:fixed;top:0;right:0;width:100%;max-width:420px;height:100%;background:#fff;z-index:500;overflow-y:auto;transform:translateX(100%);transition:transform .3s ease;box-shadow:-4px 0 20px rgba(0,0,0,.2);}
+#adminPanel.open{transform:translateX(0);}
+#adminHeader{background:#1a54b0;color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+#adminHeader h2{font-size:16px;font-weight:700;}
+#adminClose{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
+.admin-section{border-bottom:1px solid #eee;padding:20px;}
+.admin-section h3{font-size:14px;font-weight:700;color:#1a54b0;margin-bottom:14px;}
+.field-row{margin-bottom:12px;}
+.field-row label{display:block;font-size:12px;color:#666;margin-bottom:4px;font-weight:600;}
+.field-row input,.field-row textarea{width:100%;border:1px solid #ddd;border-radius:6px;padding:9px 12px;font-size:13px;font-family:inherit;}
+.field-row textarea{height:70px;resize:vertical;}
+.field-row input[type=color]{height:36px;padding:2px 4px;cursor:pointer;}
+.img-upload-row{display:flex;gap:8px;align-items:center;}
+.img-upload-row input[type=text]{flex:1;}
+.upload-btn{background:#1a54b0;color:#fff;border:none;border-radius:6px;padding:8px 12px;font-size:12px;cursor:pointer;white-space:nowrap;}
+.upload-btn:hover{background:#1344a0;}
+#adminSaveBtn{position:sticky;bottom:0;width:100%;padding:16px;background:#f5c518;color:#1a3a6b;font-size:16px;font-weight:900;border:none;cursor:pointer;}
+.review-admin-item{background:#f5f5f5;border-radius:8px;padding:12px;margin-bottom:10px;position:relative;}
+.review-admin-item .del-btn{position:absolute;top:8px;right:8px;background:#e53935;color:#fff;border:none;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer;}
+.add-review-btn,.add-svc-btn{background:#00c73c;color:#fff;border:none;border-radius:6px;padding:9px 16px;font-size:13px;cursor:pointer;margin-top:8px;width:100%;}
+.svc-admin-item{background:#f5f5f5;border-radius:8px;padding:10px;margin-bottom:8px;position:relative;}
+.svc-admin-item .del-btn{position:absolute;top:8px;right:8px;background:#e53935;color:#fff;border:none;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer;}
+.saving-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 24px;border-radius:30px;font-size:14px;z-index:600;opacity:0;transition:opacity .3s;}
+.saving-toast.show{opacity:1;}
+
+/* ─── LOGIN OVERLAY ─── */
+#loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;display:flex;align-items:center;justify-content:center;display:none;}
+#loginBox{background:#fff;border-radius:16px;padding:36px 28px;text-align:center;max-width:340px;width:90%;}
+#loginBox h2{font-size:20px;font-weight:900;margin-bottom:8px;color:#1a54b0;}
+#loginBox p{font-size:14px;color:#666;margin-bottom:24px;}
+#googleSignInBtn{background:#fff;border:2px solid #ddd;border-radius:8px;padding:12px 20px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px;margin:0 auto;width:100%;justify-content:center;}
+#googleSignInBtn:hover{background:#f5f5f5;}
+#loginClose{background:none;border:none;color:#999;font-size:13px;margin-top:16px;cursor:pointer;display:block;width:100%;text-align:center;}
+
+/* ─── ADMIN UID MANAGER ─── */
+#uidManager{padding:20px;}
+#uidManager h3{font-size:16px;font-weight:700;color:#1a54b0;margin-bottom:14px;}
+.uid-list-item{display:flex;align-items:center;justify-content:space-between;background:#f5f5f5;border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:13px;}
+.uid-list-item .uid-email{font-weight:600;}
+.uid-list-item .uid-code{color:#888;font-size:11px;}
+.uid-add-row{display:flex;gap:8px;margin-top:12px;}
+.uid-add-row input{flex:1;border:1px solid #ddd;border-radius:6px;padding:9px 12px;font-size:13px;}
+.uid-add-row button{background:#1a54b0;color:#fff;border:none;border-radius:6px;padding:9px 14px;font-size:13px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header id="header">
+  <div id="headerLogo">배관사무소</div>
+  <button id="headerPhone" onclick="callPhone()">📞 지금 바로 전화</button>
+</header>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div id="heroTag">24시간 긴급출동</div>
+  <h1 id="heroTitle">즉각적 무료<br>내시경 무료이벤트</h1>
+  <p id="heroSubtitle">전국 어디든 30분 이내 긴급출동 · 미해결 시 비용 0원</p>
+  <img id="heroImg" src="https://placehold.co/340x200/1a54b0/white?text=기사+사진" alt="기사 사진"/>
+  <div class="heroBtns">
+    <button class="heroBtn" id="heroBtnCall" onclick="callPhone()">📞 전화상담</button>
+    <button class="heroBtn" id="heroBtnKakao" onclick="openKakao()">💬 카카오상담</button>
+    <button class="heroBtn" id="heroBtnFree" onclick="callPhone()">🎁 무료점검 신청</button>
+  </div>
+</section>
+
+<!-- ─── 내시경 검사 ─── -->
+<section id="inspection">
+  <div class="sec-tag">전문 장비 보유</div>
+  <h2 class="sec-title" id="inspTitle">하이엔드 내시경 검사</h2>
+  <p class="sec-sub" id="inspSub">정확한 진단으로 불필요한 공사를 줄여드립니다</p>
+  <div class="insp-grid" id="inspGrid">
+    <div class="insp-card"><img src="https://placehold.co/200x120/ccc/555?text=검사1" alt=""/><p>정밀 내시경<br>진단</p></div>
+    <div class="insp-card"><img src="https://placehold.co/200x120/ccc/555?text=검사2" alt=""/><p>하수구<br>막힘 제거</p></div>
+    <div class="insp-card"><img src="https://placehold.co/200x120/ccc/555?text=검사3" alt=""/><p>누수<br>탐지</p></div>
+  </div>
+  <button class="cta-btn" id="inspBtn" onclick="callPhone()">무료 내시경 검사 신청하기</button>
+</section>
+
+<!-- ─── 바가지 요금 없음 ─── -->
+<section id="nobagaji">
+  <span class="label">투명한 견적</span>
+  <h2 class="title" id="nobagajiTitle">배관사무소는 절대 바가지 요금을<br>청구하지 않습니다!</h2>
+  <p id="nobagajiDesc" style="color:#cde;font-size:13px;margin-bottom:10px;">현장 확인 후 정확한 견적을 먼저 안내드립니다</p>
+  <div class="badge" id="nobagajiBadge">최대 환급액 0원</div>
+</section>
+
+<!-- ─── 신뢰도 ─── -->
+<section id="trust">
+  <div class="sec-tag">고객 만족도</div>
+  <h2 class="sec-title" id="trustTitle">배관사무소는<br>신뢰를 최우선합니다</h2>
+  <div class="big-num" id="trustPercent">98.6%</div>
+  <p id="trustSub" style="font-size:13px;color:#555;">전국 고객 만족도 조사 기준</p>
+  <div class="stats-row">
+    <div class="stat-item"><div class="num" id="stat1Num">10,000+</div><div class="lbl" id="stat1Lbl">누적 출동 수</div></div>
+    <div class="stat-item"><div class="num" id="stat2Num">98.8%</div><div class="lbl" id="stat2Lbl">재방문율</div></div>
+    <div class="stat-item"><div class="num" id="stat3Num">30분</div><div class="lbl" id="stat3Lbl">평균 출동</div></div>
+    <div class="stat-item"><div class="num" id="stat4Num">24시간</div><div class="lbl" id="stat4Lbl">연중무휴</div></div>
+  </div>
+</section>
+
+<!-- ─── 고객 후기 ─── -->
+<section id="reviews">
+  <h2 class="sec-title">고객님들의 리얼후기</h2>
+  <div class="review-stars">★★★★★ 4.9 / 5.0</div>
+  <div id="reviewList"></div>
+</section>
+
+<!-- ─── 사진 신뢰 ─── -->
+<section id="photoTrust">
+  <h2 class="sec-title" style="text-align:center" id="photoTitle">배관사무소는 해결 후에만 시<br>비용을 청구합니다!</h2>
+  <div class="photo-grid" id="photoGrid">
+    <img src="https://placehold.co/300x160/ccc/555?text=작업1" alt="작업사진"/>
+    <img src="https://placehold.co/300x160/ccc/555?text=작업2" alt="작업사진"/>
+    <img src="https://placehold.co/300x160/ccc/555?text=작업3" alt="작업사진"/>
+    <img src="https://placehold.co/300x160/ccc/555?text=작업4" alt="작업사진"/>
+  </div>
+</section>
+
+<!-- ─── 서비스 목록 ─── -->
+<section id="services">
+  <span class="sec-tag">전문 서비스</span>
+  <h2 class="sec-title">배관사무소 핵심 서비스</h2>
+  <div class="service-grid" id="serviceGrid"></div>
+</section>
+
+<!-- ─── 전국 출동 ─── -->
+<section id="nationwide">
+  <h2 class="sec-title" id="nationTitle">전국 어디든 빠르게 출동합니다</h2>
+  <p class="sec-sub" id="nationSub">서울·경기·인천·부산·대구·광주·대전 모두 가능</p>
+  <div class="nation-stats">
+    <div class="ns-item"><div class="num" id="ns1Num">16+</div><div class="lbl" id="ns1Lbl">운영 지역</div></div>
+    <div class="ns-item"><div class="num" id="ns2Num">30분</div><div class="lbl" id="ns2Lbl">출동 시간</div></div>
+    <div class="ns-item"><div class="num" id="ns3Num">24H</div><div class="lbl" id="ns3Lbl">운영시간</div></div>
+  </div>
+  <img id="nationMapImg" src="https://placehold.co/280x320/c8f0c0/2d7a2d?text=한국지도" alt="전국 출동 지도"/>
+  <div><span class="badge" id="nationBadge">전국 출동가능 30분 완료</span></div>
+</section>
+
+<!-- ─── 빠른 연락 ─── -->
+<section id="quickContact">
+  <h2 class="sec-title" id="qcTitle">신속, 간단한 진행방식</h2>
+  <div class="qc-grid">
+    <button class="qc-btn" id="qcCall" onclick="callPhone()"><span style="font-size:28px">📞</span><span>전화 바로연결</span></button>
+    <button class="qc-btn" id="qcKakao" onclick="openKakao()"><span style="font-size:28px">💬</span><span>카카오 채팅</span></button>
+    <button class="qc-btn" id="qcSms" onclick="sendSms()"><span style="font-size:28px">✉️</span><span>문자 접수</span></button>
+    <button class="qc-btn" id="qcFree" onclick="callPhone()"><span style="font-size:28px">🎁</span><span>무료점검 신청</span></button>
+  </div>
+</section>
+
+<!-- ─── 하단 CTA ─── -->
+<section id="bottomCta">
+  <h2 class="title" id="bottomTitle">빠른 문제,<br>더 이상 고민하지 마세요!</h2>
+  <div class="bottom-stats">
+    <div class="bs-item"><div class="num" id="bs1Num">30분</div><div class="lbl" id="bs1Lbl">긴급출동</div></div>
+    <div class="bs-item"><div class="num" id="bs2Num">19,000+</div><div class="lbl" id="bs2Lbl">해결 건수</div></div>
+    <div class="bs-item"><div class="num" id="bs3Num">0원</div><div class="lbl" id="bs3Lbl">미해결 비용</div></div>
+  </div>
+  <button class="cta-call" id="bottomCallBtn" onclick="callPhone()">지금 바로 전화하기</button>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer id="footer">
+  <div id="footerText">배관사무소 · 사업자등록번호: 000-00-00000<br>대표: 홍길동 · 24시간 운영</div>
+</footer>
+
+<!-- ─── 플로팅 전화 버튼 ─── -->
+<button id="floatCall" onclick="callPhone()">📞</button>
+
+<!-- ─── 관리자 버튼 ─── -->
+<button id="adminToggle" onclick="toggleAdmin()" title="설정">⚙️</button>
+
+<!-- ─── TOAST ─── -->
+<div class="saving-toast" id="toast">저장되었습니다 ✓</div>
+
+<!-- ─── LOGIN OVERLAY ─── -->
+<div id="loginOverlay">
+  <div id="loginBox">
+    <h2>로그인</h2>
+    <p>홈페이지를 편집하려면<br>Google 계정으로 로그인해주세요</p>
+    <button id="googleSignInBtn" onclick="signInWithGoogle()">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Google로 로그인
+    </button>
+    <button id="loginClose" onclick="closeLogin()">닫기</button>
+  </div>
+</div>
+
+<!-- ─── ADMIN PANEL ─── -->
+<div id="adminPanel">
+  <div id="adminHeader">
+    <h2>⚙️ 홈페이지 설정</h2>
+    <button id="adminClose" onclick="toggleAdmin()">✕</button>
+  </div>
+
+  <!-- 색상 설정 -->
+  <div class="admin-section">
+    <h3>🎨 색상 설정</h3>
+    <div class="field-row"><label>메인 색상</label><input type="color" id="cf_mainColor" value="#1a54b0" onchange="applyColors()"/></div>
+    <div class="field-row"><label>강조 색상 (노랑)</label><input type="color" id="cf_accentColor" value="#f5c518" onchange="applyColors()"/></div>
+  </div>
+
+  <!-- 기본 정보 -->
+  <div class="admin-section">
+    <h3>📋 기본 정보</h3>
+    <div class="field-row"><label>업체명</label><input type="text" id="cf_bizName" placeholder="배관사무소"/></div>
+    <div class="field-row"><label>전화번호</label><input type="text" id="cf_phone" placeholder="010-0000-0000"/></div>
+    <div class="field-row"><label>카카오 채널 URL</label><input type="text" id="cf_kakaoUrl" placeholder="https://pf.kakao.com/..."/></div>
+    <div class="field-row"><label>푸터 정보</label><textarea id="cf_footer" placeholder="사업자등록번호, 대표 등"></textarea></div>
+  </div>
+
+  <!-- 히어로 섹션 -->
+  <div class="admin-section">
+    <h3>🏠 상단 히어로 섹션</h3>
+    <div class="field-row"><label>태그 문구</label><input type="text" id="cf_heroTag" placeholder="24시간 긴급출동"/></div>
+    <div class="field-row"><label>메인 제목</label><textarea id="cf_heroTitle" placeholder="즉각적 무료&#10;내시경 무료이벤트"></textarea></div>
+    <div class="field-row"><label>서브 문구</label><input type="text" id="cf_heroSubtitle" placeholder="전국 어디든 30분 이내..."/></div>
+    <div class="field-row"><label>기사 사진</label>
+      <div class="img-upload-row">
+        <input type="text" id="cf_heroImg" placeholder="이미지 URL 또는 업로드"/>
+        <button class="upload-btn" onclick="uploadImage('cf_heroImg','heroes')">📷 업로드</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 내시경 섹션 -->
+  <div class="admin-section">
+    <h3>🔍 내시경 검사 섹션</h3>
+    <div class="field-row"><label>제목</label><input type="text" id="cf_inspTitle"/></div>
+    <div class="field-row"><label>설명</label><input type="text" id="cf_inspSub"/></div>
+    <div class="field-row"><label>버튼 문구</label><input type="text" id="cf_inspBtn"/></div>
+    <div class="field-row"><label>검사 사진 1</label>
+      <div class="img-upload-row"><input type="text" id="cf_inspImg1"/><button class="upload-btn" onclick="uploadImage('cf_inspImg1','inspection')">📷</button></div>
+    </div>
+    <div class="field-row"><label>검사 사진 2</label>
+      <div class="img-upload-row"><input type="text" id="cf_inspImg2"/><button class="upload-btn" onclick="uploadImage('cf_inspImg2','inspection')">📷</button></div>
+    </div>
+    <div class="field-row"><label>검사 사진 3</label>
+      <div class="img-upload-row"><input type="text" id="cf_inspImg3"/><button class="upload-btn" onclick="uploadImage('cf_inspImg3','inspection')">📷</button></div>
+    </div>
+  </div>
+
+  <!-- 통계 섹션 -->
+  <div class="admin-section">
+    <h3>📊 신뢰도 통계</h3>
+    <div class="field-row"><label>메인 신뢰도 %</label><input type="text" id="cf_trustPercent" placeholder="98.6%"/></div>
+    <div class="field-row"><label>통계1 숫자</label><input type="text" id="cf_stat1Num"/></div>
+    <div class="field-row"><label>통계1 라벨</label><input type="text" id="cf_stat1Lbl"/></div>
+    <div class="field-row"><label>통계2 숫자</label><input type="text" id="cf_stat2Num"/></div>
+    <div class="field-row"><label>통계2 라벨</label><input type="text" id="cf_stat2Lbl"/></div>
+    <div class="field-row"><label>통계3 숫자</label><input type="text" id="cf_stat3Num"/></div>
+    <div class="field-row"><label>통계3 라벨</label><input type="text" id="cf_stat3Lbl"/></div>
+    <div class="field-row"><label>통계4 숫자</label><input type="text" id="cf_stat4Num"/></div>
+    <div class="field-row"><label>통계4 라벨</label><input type="text" id="cf_stat4Lbl"/></div>
+  </div>
+
+  <!-- 작업 사진 -->
+  <div class="admin-section">
+    <h3>📸 작업 사진 4장</h3>
+    <div class="field-row"><label>사진 1</label>
+      <div class="img-upload-row"><input type="text" id="cf_photo1"/><button class="upload-btn" onclick="uploadImage('cf_photo1','works')">📷</button></div>
+    </div>
+    <div class="field-row"><label>사진 2</label>
+      <div class="img-upload-row"><input type="text" id="cf_photo2"/><button class="upload-btn" onclick="uploadImage('cf_photo2','works')">📷</button></div>
+    </div>
+    <div class="field-row"><label>사진 3</label>
+      <div class="img-upload-row"><input type="text" id="cf_photo3"/><button class="upload-btn" onclick="uploadImage('cf_photo3','works')">📷</button></div>
+    </div>
+    <div class="field-row"><label>사진 4</label>
+      <div class="img-upload-row"><input type="text" id="cf_photo4"/><button class="upload-btn" onclick="uploadImage('cf_photo4','works')">📷</button></div>
+    </div>
+  </div>
+
+  <!-- 서비스 항목 -->
+  <div class="admin-section">
+    <h3>🔧 서비스 항목</h3>
+    <div id="svcAdminList"></div>
+    <button class="add-svc-btn" onclick="addServiceAdmin()">+ 서비스 추가</button>
+  </div>
+
+  <!-- 전국 출동 -->
+  <div class="admin-section">
+    <h3>🗺️ 전국 출동</h3>
+    <div class="field-row"><label>제목</label><input type="text" id="cf_nationTitle"/></div>
+    <div class="field-row"><label>설명</label><input type="text" id="cf_nationSub"/></div>
+    <div class="field-row"><label>지도 이미지</label>
+      <div class="img-upload-row"><input type="text" id="cf_nationMap"/><button class="upload-btn" onclick="uploadImage('cf_nationMap','maps')">📷</button></div>
+    </div>
+    <div class="field-row"><label>통계1 숫자</label><input type="text" id="cf_ns1Num"/></div>
+    <div class="field-row"><label>통계1 라벨</label><input type="text" id="cf_ns1Lbl"/></div>
+    <div class="field-row"><label>통계2 숫자</label><input type="text" id="cf_ns2Num"/></div>
+    <div class="field-row"><label>통계2 라벨</label><input type="text" id="cf_ns2Lbl"/></div>
+    <div class="field-row"><label>통계3 숫자</label><input type="text" id="cf_ns3Num"/></div>
+    <div class="field-row"><label>통계3 라벨</label><input type="text" id="cf_ns3Lbl"/></div>
+  </div>
+
+  <!-- 하단 통계 -->
+  <div class="admin-section">
+    <h3>📢 하단 CTA</h3>
+    <div class="field-row"><label>제목</label><textarea id="cf_bottomTitle"></textarea></div>
+    <div class="field-row"><label>통계1 숫자</label><input type="text" id="cf_bs1Num"/></div>
+    <div class="field-row"><label>통계1 라벨</label><input type="text" id="cf_bs1Lbl"/></div>
+    <div class="field-row"><label>통계2 숫자</label><input type="text" id="cf_bs2Num"/></div>
+    <div class="field-row"><label>통계2 라벨</label><input type="text" id="cf_bs2Lbl"/></div>
+    <div class="field-row"><label>통계3 숫자</label><input type="text" id="cf_bs3Num"/></div>
+    <div class="field-row"><label>통계3 라벨</label><input type="text" id="cf_bs3Lbl"/></div>
+  </div>
+
+  <!-- 고객 후기 -->
+  <div class="admin-section">
+    <h3>⭐ 고객 후기</h3>
+    <div id="reviewAdminList"></div>
+    <button class="add-review-btn" onclick="addReviewAdmin()">+ 후기 추가</button>
+  </div>
+
+  <!-- UID 관리 (관리자만) -->
+  <div class="admin-section" id="uidSection" style="display:none">
+    <h3>👥 직원 UID 관리</h3>
+    <p style="font-size:12px;color:#888;margin-bottom:12px;">직원이 Google 로그인 후 UID를 등록하면 해당 링크로 개인 페이지를 사용할 수 있습니다</p>
+    <div id="uidList"></div>
+    <div class="uid-add-row">
+      <input type="text" id="newUidEmail" placeholder="이메일 (표시용)"/>
+      <input type="text" id="newUidValue" placeholder="Firebase UID"/>
+      <button onclick="addUid()">추가</button>
+    </div>
+  </div>
+
+  <button id="adminSaveBtn" onclick="saveData()">💾 저장하기</button>
+</div>
+
+<!-- ─── FIREBASE & APP SCRIPT ─── -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBp1uWkiY7O0rcR51sZ7OaeTLOGRx4-Bsg",
+  authDomain: "pb-office-ce3c5.firebaseapp.com",
+  projectId: "pb-office-ce3c5",
+  storageBucket: "pb-office-ce3c5.firebasestorage.app",
+  messagingSenderId: "385537038446",
+  appId: "1:385537038446:web:7354468e802e9a36e86e7f"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const ADMIN_EMAIL = "junbsd@gmail.com";
+
+// URL에서 UID 가져오기
+const urlParams = new URLSearchParams(window.location.search);
+const pageUid = urlParams.get("user");
+
+let currentUser = null;
+let pageData = {};
+let isOwner = false;
+let isAdmin = false;
+
+// ─── DEFAULT DATA ───
+const DEFAULT_DATA = {
+  mainColor: "#1a54b0",
+  accentColor: "#f5c518",
+  bizName: "배관사무소",
+  phone: "010-0000-0000",
+  kakaoUrl: "",
+  footer: "배관사무소 · 사업자등록번호: 000-00-00000\n대표: 홍길동 · 24시간 운영",
+  heroTag: "24시간 긴급출동",
+  heroTitle: "즉각적 무료\n내시경 무료이벤트",
+  heroSubtitle: "전국 어디든 30분 이내 긴급출동 · 미해결 시 비용 0원",
+  heroImg: "https://placehold.co/340x200/1a54b0/white?text=기사+사진",
+  inspTitle: "하이엔드 내시경 검사",
+  inspSub: "정확한 진단으로 불필요한 공사를 줄여드립니다",
+  inspBtn: "무료 내시경 검사 신청하기",
+  inspImg1: "https://placehold.co/200x120/ccc/555?text=검사1",
+  inspImg2: "https://placehold.co/200x120/ccc/555?text=검사2",
+  inspImg3: "https://placehold.co/200x120/ccc/555?text=검사3",
+  nobagajiTitle: "배관사무소는 절대 바가지 요금을\n청구하지 않습니다!",
+  nobagajiDesc: "현장 확인 후 정확한 견적을 먼저 안내드립니다",
+  nobagajiBadge: "최대 환급액 0원",
+  trustPercent: "98.6%",
+  trustTitle: "배관사무소는\n신뢰를 최우선합니다",
+  trustSub: "전국 고객 만족도 조사 기준",
+  stat1Num: "10,000+", stat1Lbl: "누적 출동 수",
+  stat2Num: "98.8%", stat2Lbl: "재방문율",
+  stat3Num: "30분", stat3Lbl: "평균 출동",
+  stat4Num: "24시간", stat4Lbl: "연중무휴",
+  photo1: "https://placehold.co/300x160/ccc/555?text=작업1",
+  photo2: "https://placehold.co/300x160/ccc/555?text=작업2",
+  photo3: "https://placehold.co/300x160/ccc/555?text=작업3",
+  photo4: "https://placehold.co/300x160/ccc/555?text=작업4",
+  photoTitle: "배관사무소는 해결 후에만\n비용을 청구합니다!",
+  nationTitle: "전국 어디든 빠르게 출동합니다",
+  nationSub: "서울·경기·인천·부산·대구·광주·대전 모두 가능",
+  nationMap: "https://placehold.co/280x320/c8f0c0/2d7a2d?text=한국지도",
+  nationBadge: "전국 출동가능 30분 완료",
+  ns1Num: "16+", ns1Lbl: "운영 지역",
+  ns2Num: "30분", ns2Lbl: "출동 시간",
+  ns3Num: "24H", ns3Lbl: "운영시간",
+  qcTitle: "신속, 간단한 진행방식",
+  bottomTitle: "빠른 문제,\n더 이상 고민하지 마세요!",
+  bs1Num: "30분", bs1Lbl: "긴급출동",
+  bs2Num: "19,000+", bs2Lbl: "해결 건수",
+  bs3Num: "0원", bs3Lbl: "미해결 비용",
+  services: [
+    {icon:"🚽", name:"변기막힘", desc:"즉시 뚫어드립니다"},
+    {icon:"🍽️", name:"싱크대막힘", desc:"주방·욕실 모두 가능"},
+    {icon:"🌊", name:"하수구역류", desc:"역류 완벽 해결"},
+    {icon:"💧", name:"누수탐지", desc:"정밀 누수 탐지"}
+  ],
+  reviews: [
+    {name:"김**", stars:5, text:"정말 빠르게 와주셨고 친절하게 설명해주셨어요. 완전 해결됐습니다!"},
+    {name:"이**", stars:5, text:"새벽에 변기가 막혀서 전화했는데 30분도 안돼서 오셨어요. 강추합니다!"},
+    {name:"박**", stars:5, text:"가격도 합리적이고 깔끔하게 처리해주셨습니다. 재방문 의향 있습니다."}
+  ]
+};
+
+// ─── 페이지 렌더링 ───
+function renderPage(d) {
+  pageData = d;
+  applyColors(d.mainColor, d.accentColor);
+
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val||""; };
+  const setHTML = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val||""; };
+  const setImg = (id, src) => { const el = document.getElementById(id); if(el && src) el.src = src; };
+  const setHref = (id, href) => { const el = document.getElementById(id); if(el && href) el.href = href; };
+
+  document.title = (d.bizName||"배관사무소") + " | 24시간 긴급 배관 서비스";
+  set("headerLogo", d.bizName);
+  set("heroTag", d.heroTag);
+  set("heroTitle", d.heroTitle);
+  document.getElementById("heroTitle").style.whiteSpace = "pre-line";
+  set("heroSubtitle", d.heroSubtitle);
+  setImg("heroImg", d.heroImg);
+  set("inspTitle", d.inspTitle);
+  set("inspSub", d.inspSub);
+  document.getElementById("inspBtn").textContent = d.inspBtn||"무료 내시경 검사 신청하기";
+
+  // 내시경 사진
+  const ig = document.getElementById("inspGrid");
+  ig.innerHTML = `
+    <div class="insp-card"><img src="${d.inspImg1||DEFAULT_DATA.inspImg1}" alt=""/><p>${(d.inspImg1Label||"정밀 내시경\n진단")}</p></div>
+    <div class="insp-card"><img src="${d.inspImg2||DEFAULT_DATA.inspImg2}" alt=""/><p>${(d.inspImg2Label||"하수구\n막힘 제거")}</p></div>
+    <div class="insp-card"><img src="${d.inspImg3||DEFAULT_DATA.inspImg3}" alt=""/><p>${(d.inspImg3Label||"누수\n탐지")}</p></div>
+  `;
+
+  set("nobagajiTitle", d.nobagajiTitle);
+  document.getElementById("nobagajiTitle").style.whiteSpace = "pre-line";
+  set("nobagajiDesc", d.nobagajiDesc);
+  set("nobagajiBadge", d.nobagajiBadge);
+  set("trustPercent", d.trustPercent);
+  set("trustTitle", d.trustTitle);
+  document.getElementById("trustTitle").style.whiteSpace = "pre-line";
+  set("trustSub", d.trustSub);
+  set("stat1Num", d.stat1Num); set("stat1Lbl", d.stat1Lbl);
+  set("stat2Num", d.stat2Num); set("stat2Lbl", d.stat2Lbl);
+  set("stat3Num", d.stat3Num); set("stat3Lbl", d.stat3Lbl);
+  set("stat4Num", d.stat4Num); set("stat4Lbl", d.stat4Lbl);
+  set("photoTitle", d.photoTitle);
+  document.getElementById("photoTitle").style.whiteSpace = "pre-line";
+
+  // 작업사진
+  const pg = document.getElementById("photoGrid");
+  pg.innerHTML = `
+    <img src="${d.photo1||DEFAULT_DATA.photo1}" alt="작업사진"/>
+    <img src="${d.photo2||DEFAULT_DATA.photo2}" alt="작업사진"/>
+    <img src="${d.photo3||DEFAULT_DATA.photo3}" alt="작업사진"/>
+    <img src="${d.photo4||DEFAULT_DATA.photo4}" alt="작업사진"/>
+  `;
+
+  // 서비스
+  const svcs = d.services || DEFAULT_DATA.services;
+  document.getElementById("serviceGrid").innerHTML = svcs.map(s => `
+    <div class="svc-card">
+      <span class="svc-icon">${s.icon||"🔧"}</span>
+      <div><div class="svc-name">${s.name||""}</div><div class="svc-desc">${s.desc||""}</div></div>
+    </div>`).join("");
+
+  set("nationTitle", d.nationTitle);
+  set("nationSub", d.nationSub);
+  setImg("nationMapImg", d.nationMap);
+  set("nationBadge", d.nationBadge);
+  set("ns1Num", d.ns1Num); set("ns1Lbl", d.ns1Lbl);
+  set("ns2Num", d.ns2Num); set("ns2Lbl", d.ns2Lbl);
+  set("ns3Num", d.ns3Num); set("ns3Lbl", d.ns3Lbl);
+  set("qcTitle", d.qcTitle);
+  set("bottomTitle", d.bottomTitle);
+  document.getElementById("bottomTitle").style.whiteSpace = "pre-line";
+  set("bs1Num", d.bs1Num); set("bs1Lbl", d.bs1Lbl);
+  set("bs2Num", d.bs2Num); set("bs2Lbl", d.bs2Lbl);
+  set("bs3Num", d.bs3Num); set("bs3Lbl", d.bs3Lbl);
+  document.getElementById("footerText").innerHTML = (d.footer||"").replace(/\n/g,"<br>");
+
+  // 후기
+  const revs = d.reviews || DEFAULT_DATA.reviews;
+  document.getElementById("reviewList").innerHTML = revs.map(r => `
+    <div class="review-card">
+      <div class="r-name">${r.name||""} ${"★".repeat(r.stars||5)}</div>
+      <div class="r-text">${r.text||""}</div>
+    </div>`).join("");
+}
+
+function applyColors(main, accent) {
+  const m = main || document.getElementById("cf_mainColor")?.value || "#1a54b0";
+  const a = accent || document.getElementById("cf_accentColor")?.value || "#f5c518";
+  document.documentElement.style.setProperty("--main", m);
+  document.documentElement.style.setProperty("--accent", a);
+  // 직접 적용
+  document.querySelectorAll("#header,#nobagaji,#services,#bottomCta,#heroBtnFree,#qcCall").forEach(el => {
+    if(el) el.style.background = m;
+  });
+  document.querySelectorAll("#headerPhone,#heroBtnCall,.badge,#nobagajiBadge,#floatCall,#adminSaveBtn,#heroBtnKakao,#bottomCallBtn").forEach(el => {
+    if(el) el.style.background = a;
+  });
+  document.querySelectorAll(".trust .big-num,.stat-item .num,.ns-item .num").forEach(el => {
+    if(el) el.style.color = m;
+  });
+  document.getElementById("trust").querySelector(".big-num").style.color = m;
+}
+window.applyColors = applyColors;
+
+// ─── 관리자 패널 채우기 ───
+function fillAdminPanel(d) {
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val||""; };
+  set("cf_mainColor", d.mainColor||"#1a54b0");
+  set("cf_accentColor", d.accentColor||"#f5c518");
+  set("cf_bizName", d.bizName); set("cf_phone", d.phone);
+  set("cf_kakaoUrl", d.kakaoUrl); set("cf_footer", d.footer);
+  set("cf_heroTag", d.heroTag); set("cf_heroTitle", d.heroTitle);
+  set("cf_heroSubtitle", d.heroSubtitle); set("cf_heroImg", d.heroImg);
+  set("cf_inspTitle", d.inspTitle); set("cf_inspSub", d.inspSub);
+  set("cf_inspBtn", d.inspBtn);
+  set("cf_inspImg1", d.inspImg1); set("cf_inspImg2", d.inspImg2); set("cf_inspImg3", d.inspImg3);
+  set("cf_trustPercent", d.trustPercent);
+  set("cf_stat1Num", d.stat1Num); set("cf_stat1Lbl", d.stat1Lbl);
+  set("cf_stat2Num", d.stat2Num); set("cf_stat2Lbl", d.stat2Lbl);
+  set("cf_stat3Num", d.stat3Num); set("cf_stat3Lbl", d.stat3Lbl);
+  set("cf_stat4Num", d.stat4Num); set("cf_stat4Lbl", d.stat4Lbl);
+  set("cf_photo1", d.photo1); set("cf_photo2", d.photo2);
+  set("cf_photo3", d.photo3); set("cf_photo4", d.photo4);
+  set("cf_nationTitle", d.nationTitle); set("cf_nationSub", d.nationSub);
+  set("cf_nationMap", d.nationMap);
+  set("cf_ns1Num", d.ns1Num); set("cf_ns1Lbl", d.ns1Lbl);
+  set("cf_ns2Num", d.ns2Num); set("cf_ns2Lbl", d.ns2Lbl);
+  set("cf_ns3Num", d.ns3Num); set("cf_ns3Lbl", d.ns3Lbl);
+  set("cf_bottomTitle", d.bottomTitle);
+  set("cf_bs1Num", d.bs1Num); set("cf_bs1Lbl", d.bs1Lbl);
+  set("cf_bs2Num", d.bs2Num); set("cf_bs2Lbl", d.bs2Lbl);
+  set("cf_bs3Num", d.bs3Num); set("cf_bs3Lbl", d.bs3Lbl);
+
+  // 서비스
+  renderSvcAdmin(d.services || DEFAULT_DATA.services);
+  // 후기
+  renderReviewAdmin(d.reviews || DEFAULT_DATA.reviews);
+}
+
+// ─── 서비스 관리 ───
+let tmpServices = [];
+function renderSvcAdmin(svcs) {
+  tmpServices = JSON.parse(JSON.stringify(svcs));
+  const el = document.getElementById("svcAdminList");
+  el.innerHTML = tmpServices.map((s,i) => `
+    <div class="svc-admin-item">
+      <button class="del-btn" onclick="delService(${i})">삭제</button>
+      <div class="field-row"><label>아이콘(이모지)</label><input type="text" id="si_icon_${i}" value="${s.icon||""}" style="width:80px"/></div>
+      <div class="field-row"><label>이름</label><input type="text" id="si_name_${i}" value="${s.name||""}"/></div>
+      <div class="field-row"><label>설명</label><input type="text" id="si_desc_${i}" value="${s.desc||""}"/></div>
+    </div>`).join("");
+}
+window.addServiceAdmin = () => { tmpServices.push({icon:"🔧",name:"새 서비스",desc:"설명"}); renderSvcAdmin(tmpServices); };
+window.delService = (i) => { tmpServices.splice(i,1); renderSvcAdmin(tmpServices); };
+
+// ─── 후기 관리 ───
+let tmpReviews = [];
+function renderReviewAdmin(revs) {
+  tmpReviews = JSON.parse(JSON.stringify(revs));
+  const el = document.getElementById("reviewAdminList");
+  el.innerHTML = tmpReviews.map((r,i) => `
+    <div class="review-admin-item">
+      <button class="del-btn" onclick="delReview(${i})">삭제</button>
+      <div class="field-row"><label>이름</label><input type="text" id="ri_name_${i}" value="${r.name||""}"/></div>
+      <div class="field-row"><label>별점(1-5)</label><input type="number" id="ri_stars_${i}" value="${r.stars||5}" min="1" max="5" style="width:60px"/></div>
+      <div class="field-row"><label>내용</label><textarea id="ri_text_${i}">${r.text||""}</textarea></div>
+    </div>`).join("");
+}
+window.addReviewAdmin = () => { tmpReviews.push({name:"고객**",stars:5,text:"후기 내용"}); renderReviewAdmin(tmpReviews); };
+window.delReview = (i) => { tmpReviews.splice(i,1); renderReviewAdmin(tmpReviews); };
+
+// ─── 패널에서 데이터 수집 ───
+function collectFormData() {
+  const get = (id) => document.getElementById(id)?.value||"";
+  // 서비스 수집
+  const svcs = tmpServices.map((s,i) => ({
+    icon: document.getElementById(`si_icon_${i}`)?.value || s.icon,
+    name: document.getElementById(`si_name_${i}`)?.value || s.name,
+    desc: document.getElementById(`si_desc_${i}`)?.value || s.desc
+  }));
+  // 후기 수집
+  const revs = tmpReviews.map((r,i) => ({
+    name: document.getElementById(`ri_name_${i}`)?.value || r.name,
+    stars: parseInt(document.getElementById(`ri_stars_${i}`)?.value)||5,
+    text: document.getElementById(`ri_text_${i}`)?.value || r.text
+  }));
+  return {
+    mainColor: get("cf_mainColor"), accentColor: get("cf_accentColor"),
+    bizName: get("cf_bizName"), phone: get("cf_phone"),
+    kakaoUrl: get("cf_kakaoUrl"), footer: get("cf_footer"),
+    heroTag: get("cf_heroTag"), heroTitle: get("cf_heroTitle"),
+    heroSubtitle: get("cf_heroSubtitle"), heroImg: get("cf_heroImg"),
+    inspTitle: get("cf_inspTitle"), inspSub: get("cf_inspSub"),
+    inspBtn: get("cf_inspBtn"),
+    inspImg1: get("cf_inspImg1"), inspImg2: get("cf_inspImg2"), inspImg3: get("cf_inspImg3"),
+    trustPercent: get("cf_trustPercent"),
+    stat1Num: get("cf_stat1Num"), stat1Lbl: get("cf_stat1Lbl"),
+    stat2Num: get("cf_stat2Num"), stat2Lbl: get("cf_stat2Lbl"),
+    stat3Num: get("cf_stat3Num"), stat3Lbl: get("cf_stat3Lbl"),
+    stat4Num: get("cf_stat4Num"), stat4Lbl: get("cf_stat4Lbl"),
+    photo1: get("cf_photo1"), photo2: get("cf_photo2"),
+    photo3: get("cf_photo3"), photo4: get("cf_photo4"),
+    nationTitle: get("cf_nationTitle"), nationSub: get("cf_nationSub"),
+    nationMap: get("cf_nationMap"),
+    ns1Num: get("cf_ns1Num"), ns1Lbl: get("cf_ns1Lbl"),
+    ns2Num: get("cf_ns2Num"), ns2Lbl: get("cf_ns2Lbl"),
+    ns3Num: get("cf_ns3Num"), ns3Lbl: get("cf_ns3Lbl"),
+    bottomTitle: get("cf_bottomTitle"),
+    bs1Num: get("cf_bs1Num"), bs1Lbl: get("cf_bs1Lbl"),
+    bs2Num: get("cf_bs2Num"), bs2Lbl: get("cf_bs2Lbl"),
+    bs3Num: get("cf_bs3Num"), bs3Lbl: get("cf_bs3Lbl"),
+    services: svcs, reviews: revs
+  };
+}
+
+// ─── 저장 ───
+window.saveData = async () => {
+  if(!currentUser || !isOwner) return alert("권한이 없습니다.");
+  const data = collectFormData();
+  const targetUid = pageUid || currentUser.uid;
+  await setDoc(doc(db, "pages", targetUid), data);
+  renderPage(data);
+  showToast("저장되었습니다 ✓");
+};
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2500);
+}
+
+// ─── 이미지 압축 업로드 ───
+window.uploadImage = (fieldId, folder) => {
+  const input = document.createElement("input");
+  input.type = "file"; input.accept = "image/*";
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    showToast("이미지 압축 중...");
+    const compressed = await compressImage(file, 1200, 0.8);
+    const targetUid = pageUid || currentUser?.uid || "default";
+    const path = `users/${targetUid}/${folder}/${Date.now()}.jpg`;
+    const storRef = ref(storage, path);
+    await uploadBytes(storRef, compressed);
+    const url = await getDownloadURL(storRef);
+    document.getElementById(fieldId).value = url;
+    showToast("업로드 완료 ✓");
+  };
+  input.click();
+};
+
+function compressImage(file, maxWidth, quality) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let w = img.width, h = img.height;
+      if(w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+      canvas.toBlob(blob => resolve(blob), "image/jpeg", quality);
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  });
+}
+
+// ─── UID 관리 ───
+async function loadUids() {
+  const snap = await getDocs(collection(db, "uids"));
+  const list = document.getElementById("uidList");
+  list.innerHTML = "";
+  snap.forEach(d => {
+    const item = document.createElement("div");
+    item.className = "uid-list-item";
+    item.innerHTML = `<div><div class="uid-email">${d.data().email||""}</div><div class="uid-code">${d.id}</div></div>
+      <button onclick="removeUid('${d.id}')" style="background:#e53935;color:#fff;border:none;border-radius:4px;padding:4px 10px;cursor:pointer;">삭제</button>`;
+    list.appendChild(item);
+  });
+}
+window.addUid = async () => {
+  const email = document.getElementById("newUidEmail").value.trim();
+  const uid = document.getElementById("newUidValue").value.trim();
+  if(!email||!uid) return alert("이메일과 UID를 모두 입력해주세요");
+  await setDoc(doc(db,"uids",uid),{email});
+  document.getElementById("newUidEmail").value = "";
+  document.getElementById("newUidValue").value = "";
+  loadUids();
+  showToast("UID 추가 완료");
+};
+window.removeUid = async (uid) => {
+  if(!confirm("삭제하시겠습니까?")) return;
+  await deleteDoc(doc(db,"uids",uid));
+  loadUids();
+};
+
+// ─── 인증 ───
+window.signInWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  try { await signInWithPopup(auth, provider); }
+  catch(e) { alert("로그인 실패: " + e.message); }
+};
+window.closeLogin = () => { document.getElementById("loginOverlay").style.display = "none"; };
+
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if(!user) {
+    document.getElementById("adminToggle").style.display = "none";
+    isOwner = false; isAdmin = false;
+    return;
+  }
+  isAdmin = (user.email === ADMIN_EMAIL);
+
+  // 페이지 오너 확인: ?user=UID가 없으면 본인 페이지, 있으면 관리자만
+  if(!pageUid || pageUid === user.uid || isAdmin) {
+    isOwner = true;
+    document.getElementById("adminToggle").style.display = "flex";
+    if(isAdmin) {
+      document.getElementById("uidSection").style.display = "block";
+      loadUids();
+    }
+  } else {
+    // 등록된 UID인지 확인
+    const uidDoc = await getDoc(doc(db,"uids",user.uid));
+    if(uidDoc.exists() && user.uid === pageUid) {
+      isOwner = true;
+      document.getElementById("adminToggle").style.display = "flex";
+    }
+  }
+});
+
+// ─── 패널 토글 ───
+window.toggleAdmin = () => {
+  if(!currentUser) {
+    document.getElementById("loginOverlay").style.display = "flex";
+    return;
+  }
+  if(!isOwner) { alert("이 페이지의 편집 권한이 없습니다."); return; }
+  const panel = document.getElementById("adminPanel");
+  panel.classList.toggle("open");
+  if(panel.classList.contains("open")) fillAdminPanel(pageData);
+};
+
+// ─── 전화/카카오 ───
+window.callPhone = () => { if(pageData.phone) window.location.href = "tel:" + pageData.phone.replace(/-/g,""); };
+window.openKakao = () => { if(pageData.kakaoUrl) window.open(pageData.kakaoUrl); else window.callPhone(); };
+window.sendSms = () => { if(pageData.phone) window.location.href = "sms:" + pageData.phone.replace(/-/g,""); };
+
+// ─── 초기 데이터 로드 ───
+async function init() {
+  const targetUid = pageUid;
+  if(targetUid) {
+    const snap = await getDoc(doc(db,"pages",targetUid));
+    if(snap.exists()) {
+      renderPage({...DEFAULT_DATA, ...snap.data()});
+    } else {
+      renderPage(DEFAULT_DATA);
+    }
+  } else {
+    renderPage(DEFAULT_DATA);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
