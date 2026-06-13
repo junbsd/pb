@@ -118,7 +118,7 @@ a{text-decoration:none;color:inherit;}
 
 /* ─── ADMIN PANEL ─── */
 #adminToggle{position:fixed;bottom:16px;right:16px;background:#1a54b0;color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:22px;cursor:pointer;z-index:300;box-shadow:0 4px 16px rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;}
-#loginBtn{background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.5);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:600;}
+#loginBtn{background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.5);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:600;display:none;}
 #userInfo{color:#fff;font-size:12px;display:none;align-items:center;gap:8px;}
 #userInfo .u-email{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #logoutBtn{background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:11px;padding:3px 8px;border-radius:10px;cursor:pointer;}
@@ -490,9 +490,15 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const ADMIN_EMAIL = "junbsd@gmail.com";
 
-// URL에서 UID 가져오기
+// URL에서 파라미터 파싱
 const urlParams = new URLSearchParams(window.location.search);
 const pageUid = urlParams.get("user");
+const isAdminMode = urlParams.get("admin") === "true";
+
+// ?admin=true 일 때만 로그인 버튼 노출
+if(isAdminMode) {
+  document.getElementById("loginBtn").style.display = "block";
+}
 
 let currentUser = null;
 let pageData = {};
@@ -776,11 +782,11 @@ function collectFormData() {
 window.saveData = async () => {
   if(!currentUser || !isOwner) return alert("권한이 없습니다.");
   const data = collectFormData();
-  // ?user=UID 있으면 그 UID, 없으면 현재 로그인한 사용자 UID
   const targetUid = pageUid || currentUser.uid;
   await setDoc(doc(db, "pages", targetUid), data);
-  pageData = data;
-  renderPage(data);
+  pageData = {...data};
+  // 저장 후 화면 갱신 (관리자가 본인 페이지를 보고 있을 때만)
+  if(pageUid === currentUser.uid || (isAdmin && !pageUid)) renderPage(data);
   showToast("저장되었습니다 ✓");
 };
 
@@ -869,7 +875,7 @@ window.doLogout = async () => {
   await signOut(auth);
   document.getElementById("adminToggle").style.display = "none";
   document.getElementById("userInfo").style.display = "none";
-  document.getElementById("loginBtn").style.display = "block";
+  if(isAdminMode) document.getElementById("loginBtn").style.display = "block";
   document.getElementById("uidPopup").style.display = "none";
   isOwner = false; isAdmin = false;
 };
@@ -904,22 +910,20 @@ onAuthStateChanged(auth, async (user) => {
   isAdmin = (user.email === ADMIN_EMAIL);
 
   if(isAdmin) {
-    // 관리자: 항상 설정 버튼 보임
+    // ── 관리자: URL에 상관없이 항상 ⚙️ 버튼 노출
     isOwner = true;
     adminToggle.style.display = "flex";
     document.getElementById("uidSection").style.display = "block";
     loadUids();
-  } else if(!pageUid) {
-    // ?user= 없이 접속: 일반 직원은 UID 팝업만 보여줌 (본인 페이지가 아님)
-    document.getElementById("uidPopup").style.display = "block";
-    isOwner = false;
-    adminToggle.style.display = "none";
-  } else if(pageUid === user.uid) {
-    // 본인 페이지 접속
+    // 관리자 자신의 UID도 팝업에 표시 (본인 페이지 링크 확인용)
+    document.getElementById("myUidText").textContent = user.uid;
+  } else if(pageUid && pageUid === user.uid) {
+    // ── 직원이 본인 ?user=UID 링크로 접속
     isOwner = true;
     adminToggle.style.display = "flex";
   } else {
-    // 남의 페이지 접속
+    // ── 직원이 ?user= 없이 접속하거나 남의 페이지 접속
+    // → UID 팝업만 보여줌 (복사해서 관리자에게 전달)
     isOwner = false;
     adminToggle.style.display = "none";
     document.getElementById("uidPopup").style.display = "block";
@@ -933,14 +937,12 @@ window.toggleAdmin = () => {
   const panel = document.getElementById("adminPanel");
   panel.classList.toggle("open");
   if(panel.classList.contains("open")) {
-    // 관리자가 ?user= 없이 접속하면 관리자 본인 페이지 데이터를 편집
+    // 설정 패널에 현재 페이지 데이터 채우기
+    // 관리자가 ?user= 없이 접속 → 관리자 본인 페이지(admin UID) 데이터 로드
     if(isAdmin && !pageUid) {
-      // 관리자 전용 페이지 로드
-      import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(({getDoc, doc}) => {
-        getDoc(doc(db,"pages",currentUser.uid)).then(snap => {
-          const d = snap.exists() ? {...DEFAULT_DATA,...snap.data()} : DEFAULT_DATA;
-          fillAdminPanel(d);
-        });
+      getDoc(doc(db, "pages", currentUser.uid)).then(snap => {
+        const d = snap.exists() ? {...DEFAULT_DATA, ...snap.data()} : {...DEFAULT_DATA};
+        fillAdminPanel(d);
       });
     } else {
       fillAdminPanel(pageData);
@@ -955,16 +957,13 @@ window.sendSms = () => { if(pageData.phone) window.location.href = "sms:" + page
 
 // ─── 초기 데이터 로드 ───
 async function init() {
-  const targetUid = pageUid;
-  if(targetUid) {
-    const snap = await getDoc(doc(db,"pages",targetUid));
-    if(snap.exists()) {
-      renderPage({...DEFAULT_DATA, ...snap.data()});
-    } else {
-      renderPage(DEFAULT_DATA);
-    }
+  if(pageUid) {
+    // ?user=UID 있으면 해당 UID의 페이지 로드
+    const snap = await getDoc(doc(db,"pages",pageUid));
+    renderPage(snap.exists() ? {...DEFAULT_DATA,...snap.data()} : {...DEFAULT_DATA});
   } else {
-    renderPage(DEFAULT_DATA);
+    // ?user= 없으면 기본 데모 화면
+    renderPage({...DEFAULT_DATA});
   }
 }
 
