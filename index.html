@@ -43,7 +43,7 @@ a{text-decoration:none;color:inherit;}
 .insp-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;flex-direction:column;}
 .insp-card-img{width:100%;aspect-ratio:4/3;overflow:hidden;}
 .insp-card-img img{width:100%;height:100%;object-fit:cover;display:block;}
-.insp-card p{font-size:12px;font-weight:700;padding:8px;text-align:center;white-space:pre-line;line-height:1.4;flex:1;display:flex;align-items:center;justify-content:center;}
+.insp-card p{font-size:var(--insp-label-size,12px);font-weight:700;color:var(--insp-label-color,#222);padding:8px;text-align:center;white-space:pre-line;line-height:1.4;flex:1;display:flex;align-items:center;justify-content:center;}
 #inspBtn{display:block;width:100%;padding:14px;background:#1a54b0;color:#fff;font-size:15px;font-weight:700;border:none;border-radius:8px;cursor:pointer;}
 
 /* ── 바가지 없음 ── */
@@ -465,6 +465,19 @@ a{text-decoration:none;color:inherit;}
       <div class="field-row"><label>섹션 제목</label><input type="text" id="cf_inspTitle"/></div>
       <div class="field-row"><label>섹션 설명</label><input type="text" id="cf_inspSub"/></div>
       <div class="field-row"><label>신청 버튼 문구</label><input type="text" id="cf_inspBtn"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="field-row">
+          <label>라벨 글씨 색상</label>
+          <div class="color-row">
+            <input type="color" id="cf_inspLabelColor" value="#222222" oninput="syncColorFromPicker('cf_inspLabelColor','cf_inspLabelColorHex');previewInspLabel()"/>
+            <input type="text" id="cf_inspLabelColorHex" value="#222222" oninput="syncColorFromHex('cf_inspLabelColorHex','cf_inspLabelColor');previewInspLabel()"/>
+          </div>
+        </div>
+        <div class="field-row">
+          <label>라벨 글씨 크기 (px)</label>
+          <input type="number" id="cf_inspLabelSize" value="14" min="10" max="24" oninput="previewInspLabel()"/>
+        </div>
+      </div>
       <div class="field-row"><label>사진 1</label><div class="img-upload-row"><input type="text" id="cf_inspImg1"/><button class="upload-btn" onclick="uploadImage('cf_inspImg1','inspection')">📷</button></div></div>
       <div class="field-row"><label>사진 1 설명</label><input type="text" id="cf_inspImg1Label"/></div>
       <div class="field-row"><label>사진 2</label><div class="img-upload-row"><input type="text" id="cf_inspImg2"/><button class="upload-btn" onclick="uploadImage('cf_inspImg2','inspection')">📷</button></div></div>
@@ -623,6 +636,7 @@ const DEFAULT = {
   inspTitle:"하이엔드 내시경 검사",
   inspSub:"정밀 진단으로 불필요한 공사를 줄여드립니다",
   inspBtn:"무료 내시경 검사 신청하기",
+  inspLabelColor:"#222", inspLabelSize:"14",
   inspImg1:"https://placehold.co/200x120/ccc/555?text=검사1", inspImg1Label:"정밀 내시경\n진단",
   inspImg2:"https://placehold.co/200x120/ccc/555?text=검사2", inspImg2Label:"하수구\n막힘 제거",
   inspImg3:"https://placehold.co/200x120/ccc/555?text=검사3", inspImg3Label:"누수\n탐지",
@@ -716,6 +730,9 @@ function renderPage(d) {
     setText(k+"Num", d[k+"Num"]); setText(k+"Lbl", d[k+"Lbl"]);
   });
 
+  // 내시경 사진 라벨 스타일
+  document.documentElement.style.setProperty('--insp-label-color', d.inspLabelColor || '#222');
+  document.documentElement.style.setProperty('--insp-label-size', (d.inspLabelSize || '14') + 'px');
   // 내시경 사진
   document.getElementById("inspGrid").innerHTML = [1,2,3].map(i => `
     <div class="insp-card">
@@ -799,6 +816,14 @@ function applyLogoStyle(font, color) {
   el.style.fontFamily = font || "'Noto Sans KR',sans-serif";
   el.style.color = color || "#ffffff";
 }
+window.previewInspLabel = () => {
+  const color = document.getElementById("cf_inspLabelColor")?.value || "#222";
+  const size  = document.getElementById("cf_inspLabelSize")?.value  || "14";
+  document.documentElement.style.setProperty('--insp-label-color', color);
+  document.documentElement.style.setProperty('--insp-label-size', size + 'px');
+  const hex = document.getElementById("cf_inspLabelColorHex");
+  if (hex) hex.value = color;
+};
 window.previewLogoFont = () => {
   applyLogoStyle(
     document.getElementById("cf_logoFont")?.value,
@@ -917,6 +942,9 @@ function fillAdminPanel(d) {
   set("cf_heroSubtitle", d.heroSubtitle);set("cf_heroImg",         d.heroImg);
   set("cf_inspTitle",    d.inspTitle);   set("cf_inspSub",         d.inspSub);
   set("cf_inspBtn",      d.inspBtn);
+  set("cf_inspLabelColor", d.inspLabelColor||"#222222");
+  set("cf_inspLabelColorHex", d.inspLabelColor||"#222222");
+  set("cf_inspLabelSize", d.inspLabelSize||"14");
   [1,2,3].forEach(i => { set("cf_inspImg"+i, d["inspImg"+i]); set("cf_inspImg"+i+"Label", d["inspImg"+i+"Label"]); });
   set("cf_nobagajiTitle",d.nobagajiTitle);set("cf_nobagajiDesc",   d.nobagajiDesc);
   set("cf_nobagajiBadge",d.nobagajiBadge);
@@ -970,6 +998,7 @@ function collectFormData() {
     heroSubtitle:get("cf_heroSubtitle"), heroImg:get("cf_heroImg"),
     inspTitle:get("cf_inspTitle"),    inspSub:get("cf_inspSub"),
     inspBtn:get("cf_inspBtn"),
+    inspLabelColor:get("cf_inspLabelColor"), inspLabelSize:get("cf_inspLabelSize"),
     inspImg1:get("cf_inspImg1"), inspImg1Label:get("cf_inspImg1Label"),
     inspImg2:get("cf_inspImg2"), inspImg2Label:get("cf_inspImg2Label"),
     inspImg3:get("cf_inspImg3"), inspImg3Label:get("cf_inspImg3Label"),
