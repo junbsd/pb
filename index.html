@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>배관사무소 | 24시간 긴급 배관 서비스</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Black+Han+Sans&family=Jua&family=Gaegu:wght@400;700&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Do+Hyeon&family=Sunflower:wght@300;500;700&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans KR',sans-serif;color:#222;background:#fff;}
@@ -13,7 +13,7 @@ a{text-decoration:none;color:inherit;}
 
 /* ── HEADER ── */
 #header{background:#1a3a6b;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-#headerLogo{color:#fff;font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+#headerLogo{color:#fff;font-size:20px;letter-spacing:-0.5px;}
 #headerRight{display:flex;align-items:center;gap:8px;}
 #headerPhone{background:#f5c518;color:#1a3a6b;font-weight:900;font-size:13px;padding:7px 14px;border-radius:30px;border:none;cursor:pointer;}
 #loginBtn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:600;display:none;}
@@ -414,11 +414,29 @@ a{text-decoration:none;color:inherit;}
       <div class="field-row">
         <label>업체명 폰트</label>
         <select id="cf_logoFont" onchange="previewLogoFont()">
-          <option value="'Noto Sans KR',sans-serif">기본체 (Noto Sans KR)</option>
-          <option value="'Black Han Sans',sans-serif">블랙한산스 — 굵고 강렬한 느낌</option>
-          <option value="'Jua',sans-serif">주아 — 친근하고 부드러운 느낌</option>
-          <option value="'Gaegu',cursive">개구 — 손글씨 느낌</option>
+          <option value="'Noto Sans KR',sans-serif">Noto Sans KR (기본, 가독성 최고)</option>
+          <option value="'Nanum Gothic',sans-serif">나눔고딕 (깔끔하고 단정)</option>
+          <option value="'Nanum Myeongjo',serif">나눔명조 (격식있고 전통적)</option>
+          <option value="'Black Han Sans',sans-serif">블랙한산스 (굵고 강렬)</option>
+          <option value="'Do Hyeon',sans-serif">도현 (현대적이고 시원)</option>
+          <option value="'Jua',sans-serif">주아 (친근하고 부드러움)</option>
+          <option value="'Sunflower',sans-serif">해바라기 (가볍고 감각적)</option>
+          <option value="'Gaegu',cursive">개구 (손글씨 느낌)</option>
         </select>
+        <p style="font-size:11px;color:#888;margin-top:4px;">※ 저장 후 새로고침하면 선택한 폰트가 완전히 적용됩니다.</p>
+      </div>
+      <div class="field-row">
+        <label>업체명 굵기</label>
+        <select id="cf_logoWeight" onchange="previewLogoFont()">
+          <option value="400">보통 (400)</option>
+          <option value="500">중간 (500)</option>
+          <option value="700">굵게 (700)</option>
+          <option value="900">매우 굵게 (900)</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <label>업체명 크기 (px)</label>
+        <input type="number" id="cf_logoSize" value="20" min="12" max="36" oninput="previewLogoFont()"/>
       </div>
       <div class="field-row">
         <label>업체명 색상</label>
@@ -626,7 +644,7 @@ let currentUser = null, pageData = {}, isOwner = false, isAdmin = false;
 
 const DEFAULT = {
   mainColor:"#1a54b0", accentColor:"#f5c518",
-  logoFont:"'Noto Sans KR',sans-serif", logoColor:"#ffffff",
+  logoFont:"'Noto Sans KR',sans-serif", logoColor:"#ffffff", logoWeight:"700", logoSize:"20",
   bizName:"배관사무소", phone:"010-0000-0000", kakaoUrl:"",
   footer:"배관사무소\n사업자등록번호: 000-00-00000 · 대표: 홍길동\n24시간 연중무휴 운영",
   heroTag:"24시간 긴급출동",
@@ -685,7 +703,7 @@ const DEFAULT = {
 function renderPage(d) {
   pageData = d;
   applyColors(d.mainColor, d.accentColor);
-  applyLogoStyle(d.logoFont, d.logoColor);
+  applyLogoStyle(d.logoFont, d.logoColor, d.logoWeight, d.logoSize);
 
   const setText = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v || ""; };
   const setImg  = (id, s) => { const e = document.getElementById(id); if (e && s) e.src = s; };
@@ -810,11 +828,13 @@ function applyColors(main, accent) {
 window.applyColors = applyColors;
 
 // ── 로고 폰트/색상 ──
-function applyLogoStyle(font, color) {
+function applyLogoStyle(font, color, weight, size) {
   const el = document.getElementById("headerLogo");
   if (!el) return;
-  el.style.fontFamily = font || "'Noto Sans KR',sans-serif";
-  el.style.color = color || "#ffffff";
+  el.style.fontFamily  = font   || "'Noto Sans KR',sans-serif";
+  el.style.color       = color  || "#ffffff";
+  el.style.fontWeight  = weight || "700";
+  el.style.fontSize    = (size  || "20") + "px";
 }
 window.previewInspLabel = () => {
   const color = document.getElementById("cf_inspLabelColor")?.value || "#222";
@@ -827,10 +847,12 @@ window.previewInspLabel = () => {
 window.previewLogoFont = () => {
   applyLogoStyle(
     document.getElementById("cf_logoFont")?.value,
-    document.getElementById("cf_logoColor")?.value
+    document.getElementById("cf_logoColor")?.value,
+    document.getElementById("cf_logoWeight")?.value,
+    document.getElementById("cf_logoSize")?.value
   );
-  const hex = document.getElementById("cf_logoColor")?.value;
-  if (hex) document.getElementById("cf_logoColorHex").value = hex;
+  const hex = document.getElementById("cf_logoColorHex");
+  if (hex) hex.value = document.getElementById("cf_logoColor")?.value || "#fff";
 };
 
 // ── 색상 동기화 ──
@@ -935,6 +957,8 @@ function fillAdminPanel(d) {
   set("cf_mainColor",    d.mainColor);   set("cf_mainColorHex",    d.mainColor);
   set("cf_accentColor",  d.accentColor); set("cf_accentColorHex",  d.accentColor);
   set("cf_logoFont",     d.logoFont);
+  set("cf_logoWeight",   d.logoWeight||"700");
+  set("cf_logoSize",     d.logoSize||"20");
   set("cf_logoColor",    d.logoColor);   set("cf_logoColorHex",    d.logoColor);
   set("cf_bizName",      d.bizName);     set("cf_phone",           d.phone);
   set("cf_kakaoUrl",     d.kakaoUrl);    set("cf_footer",          d.footer);
@@ -992,6 +1016,7 @@ function collectFormData() {
   return {
     mainColor:get("cf_mainColor"),    accentColor:get("cf_accentColor"),
     logoFont:get("cf_logoFont"),      logoColor:get("cf_logoColor"),
+    logoWeight:get("cf_logoWeight"),    logoSize:get("cf_logoSize"),
     bizName:get("cf_bizName"),        phone:get("cf_phone"),
     kakaoUrl:get("cf_kakaoUrl"),      footer:get("cf_footer"),
     heroTag:get("cf_heroTag"),        heroTitle:getML("cf_heroTitle"),
