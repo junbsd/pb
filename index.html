@@ -27,7 +27,7 @@ a{text-decoration:none;color:inherit;}
 #heroTitle{color:#fff;font-size:26px;font-weight:900;line-height:1.35;margin-bottom:8px;white-space:pre-line;}
 #heroSubtitle{color:#d0eeff;font-size:14px;margin-bottom:18px;}
 #heroImgWrap{margin-bottom:20px;}
-#heroImg{width:100%;max-width:340px;border-radius:12px;display:block;margin:0 auto;height:auto;}
+#heroImg{width:100%;max-width:340px;border-radius:12px;display:block;margin:0 auto;height:auto;aspect-ratio:4/3;object-fit:cover;}
 .heroBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 .heroBtn{padding:12px 18px;border-radius:8px;font-size:14px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;}
 #heroBtnCall{background:#f5c518;color:#1a3a6b;}
@@ -42,7 +42,7 @@ a{text-decoration:none;color:inherit;}
 .insp-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:20px;}
 .insp-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;flex-direction:column;}
 .insp-card-img{width:100%;aspect-ratio:4/3;overflow:hidden;}
-.insp-card-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.insp-card-img img{width:100%;height:100%;object-fit:contain;display:block;background:#f0f0f0;}
 .insp-card p{font-size:var(--insp-label-size,12px);font-weight:700;color:var(--insp-label-color,#222);padding:8px;text-align:center;white-space:pre-line;line-height:1.4;flex:1;display:flex;align-items:center;justify-content:center;}
 #inspBtn{display:block;width:100%;padding:14px;background:#1a54b0;color:#fff;font-size:15px;font-weight:700;border:none;border-radius:8px;cursor:pointer;}
 
@@ -76,7 +76,7 @@ a{text-decoration:none;color:inherit;}
 #photoTrust{background:#fff;padding:36px 20px;}
 #photoTitle{font-size:20px;font-weight:900;text-align:center;line-height:1.4;white-space:pre-line;margin-bottom:0;}
 .photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
-.photo-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;}
+.photo-grid img{width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:8px;display:block;background:#f5f5f5;}
 
 /* ── 서비스 ── */
 #services{background:#1a54b0;padding:36px 20px;}
