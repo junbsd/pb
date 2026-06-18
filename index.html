@@ -153,6 +153,46 @@ a{text-decoration:none;color:inherit;}
 .saving-toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 24px;border-radius:30px;font-size:14px;z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
 .saving-toast.show{opacity:1;}
 
+/* ── 동적 효과: 펄스/반짝임 ── */
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0 rgba(245,197,24,.6); }
+  70%  { box-shadow: 0 0 0 14px rgba(245,197,24,0); }
+  100% { box-shadow: 0 0 0 0 rgba(245,197,24,0); }
+}
+@keyframes shake {
+  0%, 100% { transform: rotate(0); }
+  10%      { transform: rotate(-12deg); }
+  20%      { transform: rotate(10deg); }
+  30%      { transform: rotate(-8deg); }
+  40%      { transform: rotate(6deg); }
+  50%      { transform: rotate(-4deg); }
+  60%      { transform: rotate(0); }
+}
+#floatCall{animation: pulseRing 2s infinite, shake 3.5s infinite;}
+#bottomCallBtn{animation: pulseRing 2.2s infinite;}
+#heroBtnCall{animation: pulseRing 2.4s infinite;}
+
+/* 버튼 탭 효과 (눌리는 느낌) */
+button{transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;}
+button:active{transform: scale(.95);}
+
+/* ── 스크롤 등장 효과 ── */
+.fade-up{opacity:0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease;}
+.fade-up.in-view{opacity:1; transform: translateY(0);}
+
+/* ── 무료견적 폼 ── */
+#quoteModal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:450;align-items:center;justify-content:center;display:none;padding:20px;}
+#quoteBox{background:#fff;border-radius:16px;padding:24px 22px;max-width:380px;width:100%;max-height:90vh;overflow-y:auto;}
+#quoteBox h2{font-size:19px;font-weight:900;margin-bottom:6px;color:#1a54b0;}
+#quoteBox .qb-sub{font-size:13px;color:#888;margin-bottom:18px;}
+.qb-field{margin-bottom:14px;}
+.qb-field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#333;}
+.qb-field input,.qb-field textarea{width:100%;border:1px solid #ddd;border-radius:8px;padding:11px 12px;font-size:14px;font-family:inherit;}
+.qb-field textarea{height:80px;resize:vertical;}
+.qb-field .required{color:#e53935;}
+#quoteSubmitBtn{width:100%;background:#1a54b0;color:#fff;font-size:16px;font-weight:900;padding:14px;border-radius:8px;border:none;cursor:pointer;margin-top:8px;}
+#quoteCloseBtn{width:100%;background:none;color:#999;font-size:13px;padding:10px;border:none;cursor:pointer;margin-top:6px;}
+
 /* ── 로그인 ── */
 #loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;display:none;}
 #loginBox{background:#fff;border-radius:16px;padding:32px 24px;text-align:center;max-width:320px;width:90%;}
@@ -237,16 +277,16 @@ a{text-decoration:none;color:inherit;}
 </section>
 
 <!-- 내시경 검사 -->
-<section id="inspection">
+<section id="inspection" class="fade-up">
   <span class="sec-tag">전문 장비 보유</span>
   <span class="sec-title" id="inspTitle">하이엔드 내시경 검사</span>
   <span class="sec-sub" id="inspSub">정밀 진단으로 불필요한 공사를 줄여드립니다</span>
   <div class="insp-grid" id="inspGrid"></div>
-  <button id="inspBtn" onclick="callPhone()">무료 내시경 검사 신청하기</button>
+  <button id="inspBtn" onclick="openQuote()">무료 내시경 검사 신청하기</button>
 </section>
 
 <!-- 바가지 없음 -->
-<section id="nobagaji">
+<section id="nobagaji" class="fade-up">
   <span class="nb-label">투명한 견적</span>
   <h2 id="nobagajiTitle">배관사무소는 절대 바가지 요금을
 청구하지 않습니다!</h2>
@@ -255,7 +295,7 @@ a{text-decoration:none;color:inherit;}
 </section>
 
 <!-- 신뢰도 -->
-<section id="trust">
+<section id="trust" class="fade-up">
   <span class="trust-tag">고객 만족도</span>
   <h2 id="trustTitle">배관사무소는
 신뢰를 최우선으로 생각합니다</h2>
@@ -270,28 +310,28 @@ a{text-decoration:none;color:inherit;}
 </section>
 
 <!-- 고객 후기 -->
-<section id="reviews">
+<section id="reviews" class="fade-up">
   <h2 class="reviews-title">고객님들의 생생한 후기</h2>
   <div class="review-stars-avg">★★★★★ 4.9 / 5.0</div>
   <div id="reviewList"></div>
 </section>
 
 <!-- 작업 사진 -->
-<section id="photoTrust">
+<section id="photoTrust" class="fade-up">
   <h2 id="photoTitle">문제를 완전히 해결한 후에만
 비용을 청구합니다!</h2>
   <div class="photo-grid" id="photoGrid"></div>
 </section>
 
 <!-- 서비스 -->
-<section id="services">
+<section id="services" class="fade-up">
   <span class="svc-sec-tag">전문 서비스</span>
   <span class="svc-sec-title">핵심 서비스 안내</span>
   <div class="service-grid" id="serviceGrid"></div>
 </section>
 
 <!-- 전국 출동 -->
-<section id="nationwide">
+<section id="nationwide" class="fade-up">
   <h2 id="nationTitle">전국 어디든 빠르게 출동합니다</h2>
   <p id="nationSub">서울·경기·인천·부산·대구·광주·대전 전 지역 출동 가능</p>
   <div class="nation-stats">
@@ -304,24 +344,24 @@ a{text-decoration:none;color:inherit;}
 </section>
 
 <!-- SNS -->
-<section id="socialSection" style="display:none">
+<section id="socialSection" class="fade-up" style="display:none">
   <span class="social-sec-title">공식 채널</span>
   <div class="social-grid" id="socialGrid"></div>
 </section>
 
 <!-- 빠른 연락 -->
-<section id="quickContact">
+<section id="quickContact" class="fade-up">
   <h2 id="qcTitle">지금 바로 연락하세요</h2>
   <div class="qc-grid">
     <button class="qc-btn" id="qcCall" onclick="callPhone()"><span style="font-size:26px">📞</span><span>전화 연결</span></button>
     <button class="qc-btn" id="qcKakao" onclick="openKakao()"><span style="font-size:26px">💬</span><span>카카오 채팅</span></button>
     <button class="qc-btn" id="qcSms" onclick="sendSms()"><span style="font-size:26px">✉️</span><span>문자 상담</span></button>
-    <button class="qc-btn" id="qcFree" onclick="callPhone()"><span style="font-size:26px">🎁</span><span>무료 점검 신청</span></button>
+    <button class="qc-btn" id="qcFree" onclick="openQuote()"><span style="font-size:26px">🎁</span><span>무료 점검 신청</span></button>
   </div>
 </section>
 
 <!-- 하단 CTA -->
-<section id="bottomCta">
+<section id="bottomCta" class="fade-up">
   <h2 id="bottomTitle">막힌 배관, 더 이상
 고민하지 마세요!</h2>
   <div class="bottom-stats">
@@ -358,6 +398,32 @@ a{text-decoration:none;color:inherit;}
 
 <!-- 토스트 -->
 <div class="saving-toast" id="toast"></div>
+
+<!-- 무료견적 신청 폼 -->
+<div id="quoteModal">
+  <div id="quoteBox">
+    <h2>📋 무료견적 신청</h2>
+    <p class="qb-sub">아래 정보를 입력하시면 문자로 접수됩니다</p>
+    <div class="qb-field">
+      <label>이름 <span class="required">*</span></label>
+      <input type="text" id="qb_name" placeholder="홍길동"/>
+    </div>
+    <div class="qb-field">
+      <label>연락처 <span class="required">*</span></label>
+      <input type="tel" id="qb_phone" placeholder="010-0000-0000"/>
+    </div>
+    <div class="qb-field">
+      <label>방문 주소 <span class="required">*</span></label>
+      <input type="text" id="qb_address" placeholder="예: 서울시 강남구 ○○동"/>
+    </div>
+    <div class="qb-field">
+      <label>증상 / 문의 내용</label>
+      <textarea id="qb_symptom" placeholder="예: 화장실 변기가 막혀서 물이 안 내려가요"></textarea>
+    </div>
+    <button id="quoteSubmitBtn" onclick="submitQuote()">문자로 접수하기</button>
+    <button id="quoteCloseBtn" onclick="closeQuote()">닫기</button>
+  </div>
+</div>
 
 <!-- 로그인 -->
 <div id="loginOverlay">
@@ -1309,6 +1375,41 @@ window.openKakao = () => {
   const u = pageData.kakaoUrl || pageData.kakaoSocial;
   if (u) window.open(u, "_blank"); else callPhone();
 };
+// ── 무료견적 폼 ──
+window.openQuote = () => {
+  document.getElementById("quoteModal").style.display = "flex";
+};
+window.closeQuote = () => {
+  document.getElementById("quoteModal").style.display = "none";
+};
+window.submitQuote = () => {
+  const name     = document.getElementById("qb_name").value.trim();
+  const phone    = document.getElementById("qb_phone").value.trim();
+  const address  = document.getElementById("qb_address").value.trim();
+  const symptom  = document.getElementById("qb_symptom").value.trim();
+
+  if (!name || !phone || !address) {
+    alert("이름, 연락처, 방문 주소는 필수 입력 항목입니다.");
+    return;
+  }
+
+  const bizPhone = pageData.phone;
+  if (!bizPhone) {
+    alert("업체 전화번호가 설정되지 않았습니다.");
+    return;
+  }
+
+  const msg = `[무료견적 신청]\n이름: ${name}\n연락처: ${phone}\n주소: ${address}\n증상: ${symptom || "미입력"}`;
+  const smsUrl = "sms:" + bizPhone.replace(/[^0-9]/g, "") + "?body=" + encodeURIComponent(msg);
+  location.href = smsUrl;
+
+  closeQuote();
+  document.getElementById("qb_name").value = "";
+  document.getElementById("qb_phone").value = "";
+  document.getElementById("qb_address").value = "";
+  document.getElementById("qb_symptom").value = "";
+};
+
 window.sendSms = () => {
   const p = pageData.phone;
   if (p) location.href = "sms:" + p.replace(/[^0-9]/g, "");
@@ -1345,6 +1446,66 @@ async function loadUserPageAfterLogin(user) {
 }
 
 init();
+
+// ── 스크롤 등장 효과 (IntersectionObserver) ──
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("in-view");
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll(".fade-up").forEach(el => fadeObserver.observe(el));
+
+// ── 통계 숫자 카운트업 애니메이션 ──
+function animateCountUp(el) {
+  if (!el || el.dataset.counted === "1") return;
+  const raw = el.textContent.trim();
+  // 숫자 부분 추출 (소수점, 콤마 포함), 나머지는 접두/접미사로 유지
+  const match = raw.match(/^([^\d]*)([\d,.]+)(.*)$/);
+  if (!match) return; // 숫자가 없으면 애니메이션 생략 (예: "24시간"은 숫자 24만 카운트)
+  const [, prefix, numStr, suffix] = match;
+  const target = parseFloat(numStr.replace(/,/g, ""));
+  if (isNaN(target)) return;
+  const isDecimal = numStr.includes(".");
+  const hasComma = numStr.includes(",");
+  el.dataset.counted = "1";
+
+  const duration = 1200;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+    let current = target * eased;
+    let display = isDecimal ? current.toFixed(1) : Math.round(current).toString();
+    if (hasComma) display = Number(display).toLocaleString();
+    el.textContent = prefix + display + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.textContent = raw; // 최종값은 원본 그대로 표시 (포맷 보존)
+  }
+  requestAnimationFrame(tick);
+}
+
+const countUpIds = ["trustPercent","stat1Num","stat2Num","stat3Num","stat4Num","ns1Num","ns2Num","ns3Num","bs1Num","bs2Num","bs3Num"];
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCountUp(entry.target);
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+
+// 페이지 데이터 렌더링 후 카운트업 대상 다시 관찰 (renderPage가 textContent를 바꾸므로 지연 후 등록)
+function observeCountUps() {
+  countUpIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.dataset.counted = ""; countObserver.observe(el); }
+  });
+}
+setTimeout(observeCountUps, 300);
 </script>
 </body>
 </html>
