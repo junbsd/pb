@@ -193,6 +193,13 @@ button:active{transform: scale(.95);}
 #quoteSubmitBtn{width:100%;background:#1a54b0;color:#fff;font-size:16px;font-weight:900;padding:14px;border-radius:8px;border:none;cursor:pointer;margin-top:8px;}
 #quoteCloseBtn{width:100%;background:none;color:#999;font-size:13px;padding:10px;border:none;cursor:pointer;margin-top:6px;}
 
+/* ── 문자상담 폼 (무료견적과 동일 스타일, 초록 테마) ── */
+#smsModal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:450;align-items:center;justify-content:center;display:none;padding:20px;}
+#smsBox{background:#fff;border-radius:16px;padding:24px 22px;max-width:380px;width:100%;max-height:90vh;overflow-y:auto;}
+#smsBox h2{font-size:19px;font-weight:900;margin-bottom:6px;color:#00a832;}
+#smsBox .qb-sub{font-size:13px;color:#888;margin-bottom:18px;}
+#smsSubmitBtn{width:100%;background:#00c73c;color:#fff;font-size:16px;font-weight:900;padding:14px;border-radius:8px;border:none;cursor:pointer;margin-top:8px;}
+
 /* ── 로그인 ── */
 #loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;display:none;}
 #loginBox{background:#fff;border-radius:16px;padding:32px 24px;text-align:center;max-width:320px;width:90%;}
@@ -272,7 +279,7 @@ button:active{transform: scale(.95);}
   <div class="heroBtns">
     <button class="heroBtn" id="heroBtnCall" onclick="callPhone()">📞 전화상담</button>
     <button class="heroBtn" id="heroBtnKakao" onclick="openKakao()">💬 카카오상담</button>
-    <button class="heroBtn" id="heroBtnSms" onclick="sendSms()">✉️ 문자상담</button>
+    <button class="heroBtn" id="heroBtnSms" onclick="openSmsForm()">✉️ 문자상담</button>
   </div>
 </section>
 
@@ -355,7 +362,7 @@ button:active{transform: scale(.95);}
   <div class="qc-grid">
     <button class="qc-btn" id="qcCall" onclick="callPhone()"><span style="font-size:26px">📞</span><span>전화 연결</span></button>
     <button class="qc-btn" id="qcKakao" onclick="openKakao()"><span style="font-size:26px">💬</span><span>카카오 채팅</span></button>
-    <button class="qc-btn" id="qcSms" onclick="sendSms()"><span style="font-size:26px">✉️</span><span>문자 상담</span></button>
+    <button class="qc-btn" id="qcSms" onclick="openSmsForm()"><span style="font-size:26px">✉️</span><span>문자 상담</span></button>
     <button class="qc-btn" id="qcFree" onclick="openQuote()"><span style="font-size:26px">🎁</span><span>무료 점검 신청</span></button>
   </div>
 </section>
@@ -380,7 +387,7 @@ button:active{transform: scale(.95);}
 <!-- 플로팅 버튼 -->
 <div id="floatBtns">
   <button class="float-btn" id="floatKakao" onclick="openKakao()" title="카카오 상담">💬</button>
-  <button class="float-btn" id="floatSms" onclick="sendSms()" title="문자 상담">✉️</button>
+  <button class="float-btn" id="floatSms" onclick="openSmsForm()" title="문자 상담">✉️</button>
   <button class="float-btn" id="floatCall" onclick="callPhone()" title="전화 상담">📞</button>
 </div>
 
@@ -422,6 +429,28 @@ button:active{transform: scale(.95);}
     </div>
     <button id="quoteSubmitBtn" onclick="submitQuote()">문자로 접수하기</button>
     <button id="quoteCloseBtn" onclick="closeQuote()">닫기</button>
+  </div>
+</div>
+
+<!-- 문자상담 폼 -->
+<div id="smsModal">
+  <div id="smsBox">
+    <h2>✉️ 문자상담 신청</h2>
+    <p class="qb-sub">아래 정보를 입력하시면 문자로 접수됩니다</p>
+    <div class="qb-field">
+      <label>이름 <span class="required">*</span></label>
+      <input type="text" id="sms_name" placeholder="홍길동"/>
+    </div>
+    <div class="qb-field">
+      <label>연락처 <span class="required">*</span></label>
+      <input type="tel" id="sms_phone" placeholder="010-0000-0000"/>
+    </div>
+    <div class="qb-field">
+      <label>문의 내용</label>
+      <textarea id="sms_message" placeholder="궁금한 점이나 상담받고 싶은 내용을 적어주세요"></textarea>
+    </div>
+    <button id="smsSubmitBtn" onclick="submitSmsForm()">문자로 접수하기</button>
+    <button id="quoteCloseBtn" onclick="closeSmsForm()">닫기</button>
   </div>
 </div>
 
@@ -1408,6 +1437,39 @@ window.submitQuote = () => {
   document.getElementById("qb_phone").value = "";
   document.getElementById("qb_address").value = "";
   document.getElementById("qb_symptom").value = "";
+};
+
+// ── 문자상담 폼 ──
+window.openSmsForm = () => {
+  document.getElementById("smsModal").style.display = "flex";
+};
+window.closeSmsForm = () => {
+  document.getElementById("smsModal").style.display = "none";
+};
+window.submitSmsForm = () => {
+  const name    = document.getElementById("sms_name").value.trim();
+  const phone   = document.getElementById("sms_phone").value.trim();
+  const message = document.getElementById("sms_message").value.trim();
+
+  if (!name || !phone) {
+    alert("이름과 연락처는 필수 입력 항목입니다.");
+    return;
+  }
+
+  const bizPhone = pageData.phone;
+  if (!bizPhone) {
+    alert("업체 전화번호가 설정되지 않았습니다.");
+    return;
+  }
+
+  const msg = `[문자상담 신청]\n이름: ${name}\n연락처: ${phone}\n문의내용: ${message || "미입력"}`;
+  const smsUrl = "sms:" + bizPhone.replace(/[^0-9]/g, "") + "?body=" + encodeURIComponent(msg);
+  location.href = smsUrl;
+
+  closeSmsForm();
+  document.getElementById("sms_name").value = "";
+  document.getElementById("sms_phone").value = "";
+  document.getElementById("sms_message").value = "";
 };
 
 window.sendSms = () => {
